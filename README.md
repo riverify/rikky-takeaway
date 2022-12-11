@@ -1,2 +1,2 @@
 # rikky-takeaway
-Rikky takeaway is a online takeaway web application that construct by Spring Boot and SSM framework.
+Rikky Takeaway is a web-based food ordering and delivery application built using the Spring Boot and SSM frameworks.
