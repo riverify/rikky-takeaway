@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=no,minimal-ui">
+    <title>菩提阁</title>
+    <link rel="icon" href="./../images/favico.ico">
+    <!--不同屏幕尺寸根字体设置-->
+    <script src="./../js/base.js"></script>
+    <!--element-ui的样式-->
+    <link rel="stylesheet" href="../../backend/plugins/element-ui/index.css"/>
+    <!--引入vant样式-->
+    <link rel="stylesheet" href="../styles/vant.min.css"/>
+    <!-- 引入样式  -->
+    <link rel="stylesheet" href="../styles/index.css"/>
+    <!--本页面内容的样式-->
+    <link rel="stylesheet" href="./../styles/address.css"/>
+</head>
+<body>
+<div id="address" class="app">
+    <div class="divHead">
+        <div class="divTitle">
+            <i class="el-icon-arrow-left" @click="goBack"></i>地址管理
+        </div>
+    </div>
+    <div class="divContent">
+        <div class="divItem" v-for="(item,index) in addressList" :key="index" @click.capture="itemClick(item)">
+            <div class="divAddress">
+                <span :class="{spanCompany:item.label === '公司',spanHome:item.label === '家',spanSchool:item.label === '学校'}">{{item.label}}</span>
+                {{item.detail}}
+            </div>
+            <div class="divUserPhone">
+                <span>{{item.consignee}}</span>
+                <span>{{item.sex === '0' ? '女士' : '先生'}}</span>
+                <span>{{item.phone}}</span>
+            </div>
+            <img src="./../images/edit.png" @click.stop.prevent="toAddressEditPage(item)"/>
+            <div class="divSplit"></div>
+            <div class="divDefault">
+                <img src="./../images/checked_true.png" v-if="item.isDefault === 1">
+                <img src="./../images/checked_false.png" @click.stop.prevent="setDefaultAddress(item)" v-else>设为默认地址
+            </div>
+        </div>
+    </div>
+    <div class="divBottom" @click="toAddressCreatePage">+ 添加收货地址</div>
+</div>
+<!-- 开发环境版本,包含了有帮助的命令行警告 -->
+<script src="../../backend/plugins/vue/vue.js"></script>
+<!-- 引入组件库 -->
+<script src="../../backend/plugins/element-ui/index.js"></script>
+<!-- 引入vant样式 -->
+<script src="./../js/vant.min.js"></script>
+<script src="./../api/address.js"></script>
+<!-- 引入axios -->
+<script src="../../backend/plugins/axios/axios.min.js"></script>
+<script src="./../js/request.js"></script>
+<script>
+    new Vue({
+        el: "#address",
+        data() {
+            return {
+                addressList: [
+                    //     {
+                    //     label:'公司',
+                    //     detail:'金燕龙写字楼 4层电梯口fsdfdsfsdfsdfsssssssssssss（电梯可…）',
+                    //     consignee:'周先生',//姓名
+                    //     phone:18544445566,//手机号
+                    //     isDefault:0,//是否是默认
+                    // },
+                    // {
+                    //     label:'家',
+                    //     detail:'金燕龙写字楼 4层电梯口（电梯可…）',
+                    //     consignee:'周先生',//姓名
+                    //     phone:18544445566,//手机号
+                    //     isDefault:0,//是否是默认
+                    // },
+                    // {
+                    //     label:'学校',
+                    //     detail:'金燕龙写字楼 4层电梯口（电梯可…）',
+                    //     consignee:'周先生',//姓名
+                    //     phone:18544445566,//手机号
+                    //     isDefault:0,//是否是默认
+                    // },
+                    // {
+                    //     label:'公司',
+                    //     detail:'金燕龙写字楼 4层电梯口（电梯可…）',
+                    //     consignee:'周先生',//姓名
+                    //     phone:18544445566,//手机号
+                    //     isDefault:0,//是否是默认
+                    // },
+                    // {
+                    //     label:'公司',
+                    //     detail:'金燕龙写字楼 4层电梯口（电梯可…）',
+                    //     consignee:'周先生',//姓名
+                    //     phone:18544445566,//手机号
+                    //     isDefault:0,//是否是默认
+                    // },
+                    // {
+                    //     label:'公司',
+                    //     detail:'金燕龙写字楼 4层电梯口（电梯可…）',
+                    //     consignee:'周先生',//姓名
+                    //     phone:18544445566,//手机号
+                    //     isDefault:1,//是否是默认
+                    // }
+                ],
+            }
+        },
+        computed: {},
+        created() {
+            this.initData()
+        },
+        mounted() {
+        },
+        methods: {
+            goBack() {
+                history.go(-1)
+            },
+            toAddressEditPage(item) {
+                window.requestAnimationFrame(() => {
+                    window.location.href = `/front/page/address-edit.html?id=${item.id}`
+                })
+            },
+            toAddressCreatePage() {
+                window.requestAnimationFrame(() => {
+                    window.location.href = '/front/page/address-edit.html'
+                })
+            },
+            async initData() {
+                const res = await addressListApi()
+                if (res.code === 1) {
+                    this.addressList = res.data
+                } else {
+                    this.$message.error(res.msg)
+                }
+            },
+            async setDefaultAddress(item) {
+                if (item.id) {
+                    const res = await setDefaultAddressApi({id: item.id})
+                    if (res.code === 1) {
+                        this.initData()
+                    } else {
+                        this.$message.error(res.msg)
+                    }
+                }
+            },
+            itemClick(item) {
+                const url = document.referrer
+                //表示是从订单页面跳转过来的
+                if (url.includes('order')) {
+                    this.setDefaultAddress(item)
+                    history.go(-1)
+                }
+            }
+
+        }
+    })
+</script>
+</body>
+</html>

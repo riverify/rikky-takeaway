@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=no,minimal-ui">
+    <title>菩提阁</title>
+    <link rel="icon" href="./../images/favico.ico">
+    <!--不同屏幕尺寸根字体设置-->
+    <script src="./../js/base.js"></script>
+    <!--element-ui的样式-->
+    <link rel="stylesheet" href="../../backend/plugins/element-ui/index.css"/>
+    <!--引入vant样式-->
+    <link rel="stylesheet" href="../styles/vant.min.css"/>
+    <!-- 引入样式  -->
+    <link rel="stylesheet" href="../styles/index.css"/>
+    <!--本页面内容的样式-->
+    <link rel="stylesheet" href="./../styles/login.css"/>
+</head>
+<body>
+<div id="login" v-loading="loading">
+    <div class="divHead">登录</div>
+    <div class="divContainer">
+        <el-input placeholder=" 请输入手机号码" v-model="form.phone" maxlength='20'/>
+        </el-input>
+        <div class="divSplit"></div>
+        <el-input placeholder=" 请输入验证码" v-model="form.code" maxlength='20'/>
+        </el-input>
+        <span @click='getCode'>获取验证码</span>
+    </div>
+    <div class="divMsg" v-if="msgFlag">手机号输入不正确，请重新输入</div>
+    <el-button type="primary" :class="{btnSubmit:1===1,btnNoPhone:!form.phone,btnPhone:form.phone}" @click="btnLogin">
+        登录
+    </el-button>
+</div>
+<!-- 开发环境版本，包含了有帮助的命令行警告 -->
+<script src="../../backend/plugins/vue/vue.js"></script>
+<!-- 引入组件库 -->
+<script src="../../backend/plugins/element-ui/index.js"></script>
+<!-- 引入vant样式 -->
+<script src="./../js/vant.min.js"></script>
+<!-- 引入axios -->
+<script src="../../backend/plugins/axios/axios.min.js"></script>
+<script src="./../js/request.js"></script>
+<script src="./../api/login.js"></script>
+</body>
+<script>
+    new Vue({
+        el: "#login",
+        data() {
+            return {
+                form: {
+                    phone: '',
+                    code: ''
+                },
+                msgFlag: false,
+                loading: false
+            }
+        },
+        computed: {},
+        created() {
+        },
+        mounted() {
+        },
+        methods: {
+            getCode() {
+                this.form.code = ''
+                const regex = /^(13[0-9]{9})|(15[0-9]{9})|(17[0-9]{9})|(18[0-9]{9})|(19[0-9]{9})$/;
+                if (regex.test(this.form.phone)) {
+                    this.msgFlag = false
+                    this.form.code = (Math.random() * 1000000).toFixed(0)
+                } else {
+                    this.msgFlag = true
+                }
+            },
+            async btnLogin() {
+                if (this.form.phone && this.form.code) {
+                    this.loading = true
+                    const res = await loginApi({phone: this.form.phone})
+                    this.loading = false
+                    if (res.code === 1) {
+                        sessionStorage.setItem("userPhone", this.form.phone)
+                        window.requestAnimationFrame(() => {
+                            window.location.href = '/front/index.html'
+                        })
+                    } else {
+                        this.$notify({type: 'warning', message: res.msg});
+                    }
+                } else {
+                    this.$notify({type: 'warning', message: '请输入手机号码'});
+                }
+            }
+        }
+    })
+</script>
+</html>

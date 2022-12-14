@@ -1,0 +1,96 @@
+#login .divHead {
+    opacity: 1;
+    background: #333333;
+    height: 88rem;
+    width: 100%;
+    font-size: 18rem;
+    font-family: PingFangSC, PingFangSC-Regular;
+    font-weight: 500;
+    text-align: center;
+    color: #ffffff;
+    line-height: 88rem;
+}
+
+#login .divContainer {
+    width: 356rem;
+    height: 128rem;
+    opacity: 1;
+    background: #ffffff;
+    border-radius: 6rem;
+    margin: 0 auto;
+    margin-top: 10rem;
+    position: relative;
+}
+
+#login .divContainer input {
+    border: 0;
+    height: 63rem;
+}
+
+#login .divContainer .divSplit {
+    height: 1px;
+    background-color: #efefef;
+    border: 0;
+    margin-left: 10rem;
+    margin-right: 10rem;
+}
+
+#login .divContainer span {
+    position: absolute;
+    right: 20rem;
+    top: 20rem;
+    cursor: pointer;
+    opacity: 1;
+    font-size: 12rem;
+    font-family: PingFangSC, PingFangSC-Regular;
+    font-weight: 400;
+    text-align: left;
+    color: #ffc200;
+    letter-spacing: 0px;
+}
+
+#login .divMsg {
+    width: 168px;
+    height: 17px;
+    opacity: 1;
+    font-size: 12px;
+    font-family: PingFangSC, PingFangSC-Regular;
+    font-weight: 400;
+    text-align: center;
+    color: #e94e3c;
+    line-height: 17px;
+    margin-left: 26rem;
+    margin-top: 10rem;
+}
+
+#login .btnSubmit {
+    width: 356rem;
+    height: 40rem;
+    margin: 20rem 10rem 0 10rem;
+    border-radius: 20px;
+    border: 0;
+
+    font-size: 15rem;
+    font-family: PingFangSC, PingFangSC-Regular;
+    font-weight: 500;
+    text-align: center;
+}
+
+#login .btnNoPhone {
+    color: #666666;
+    background: #d8d8d8;
+}
+
+#login .btnNoPhone:active {
+    background: #afafaf;
+}
+
+#login .btnPhone {
+    background: #ffc200;
+    color: #333333;
+}
+
+#login .btnPhone:active {
+    background: rgba(255, 142, 0, 1);
+    color: #333333;
+}

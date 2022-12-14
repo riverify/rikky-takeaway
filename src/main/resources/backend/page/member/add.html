@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="../../plugins/element-ui/index.css"/>
+    <link rel="stylesheet" href="../../styles/common.css"/>
+    <link rel="stylesheet" href="../../styles/page.css"/>
+</head>
+<body>
+<div class="addBrand-container" id="member-add-app">
+    <div class="container">
+        <el-form
+                ref="ruleForm"
+                :model="ruleForm"
+                :rules="rules"
+                :inline="false"
+                label-width="180px"
+                class="demo-ruleForm"
+        >
+            <el-form-item label="账号:" prop="username">
+                <el-input v-model="ruleForm.username" placeholder="请输入账号" maxlength="20"/>
+            </el-form-item>
+            <el-form-item
+                    label="员工姓名:"
+                    prop="name"
+            >
+                <el-input
+                        v-model="ruleForm.name"
+                        placeholder="请输入员工姓名"
+                        maxlength="20"
+                />
+            </el-form-item>
+
+            <el-form-item
+                    label="手机号:"
+                    prop="phone"
+            >
+                <el-input
+                        v-model="ruleForm.phone"
+                        placeholder="请输入手机号"
+                        maxlength="20"
+                />
+            </el-form-item>
+            <el-form-item
+                    label="性别:"
+                    prop="sex"
+            >
+                <el-radio-group v-model="ruleForm.sex">
+                    <el-radio label="男"></el-radio>
+                    <el-radio label="女"></el-radio>
+                </el-radio-group>
+            </el-form-item>
+            <el-form-item
+                    label="身份证号:"
+                    prop="idNumber"
+            >
+                <el-input
+                        v-model="ruleForm.idNumber"
+                        placeholder="请输入身份证号"
+                        maxlength="20"
+                />
+            </el-form-item>
+            <div class="subBox address">
+                <el-form-item>
+                    <el-button @click="goBack()">
+                        取消
+                    </el-button>
+                    <el-button
+                            type="primary"
+                            @click="submitForm('ruleForm', false)"
+                    >
+                        保存
+                    </el-button>
+                    <el-button
+                            v-if="actionType == 'add'"
+                            type="primary"
+                            class="continue"
+                            @click="submitForm('ruleForm', true)"
+                    >
+                        保存并继续添加
+                    </el-button>
+                </el-form-item>
+            </div>
+        </el-form>
+    </div>
+</div>
+<!-- 开发环境版本，包含了有帮助的命令行警告 -->
+<script src="../../plugins/vue/vue.js"></script>
+<!-- 引入组件库 -->
+<script src="../../plugins/element-ui/index.js"></script>
+<!-- 引入axios -->
+<script src="../../plugins/axios/axios.min.js"></script>
+<script src="../../js/request.js"></script>
+<script src="../../api/member.js"></script>
+<script src="../../js/validate.js"></script>
+<script src="../../js/index.js"></script>
+<script>
+    new Vue({
+        el: '#member-add-app',
+        data() {
+            return {
+                id: '',
+                actionType: '',
+                ruleForm: {
+                    'name': '',
+                    'phone': '',
+                    'sex': '男',
+                    'idNumber': '',
+                    username: ''
+                }
+            }
+        },
+        computed: {
+            rules() {
+                return {
+                    //账号
+                    username: [
+                        {
+                            required: true, 'validator': checkUserName, trigger: 'blur'
+                        }
+                    ],
+                    //姓名
+                    name: [{required: true, 'validator': checkName, 'trigger': 'blur'}],
+                    'phone': [{'required': true, 'validator': checkPhone, 'trigger': 'blur'}],
+                    'idNumber': [{'required': true, 'validator': validID, 'trigger': 'blur'}]
+                }
+            }
+        },
+        created() {
+            this.id = requestUrlParam('id')
+            this.actionType = this.id ? 'edit' : 'add'
+            if (this.id) {
+                this.init()
+            }
+        },
+        mounted() {
+        },
+        methods: {
+            async init() {
+                queryEmployeeById(this.id).then(res => {
+                    console.log(res)
+                    if (String(res.code) === '1') {
+                        console.log(res.data)
+                        this.ruleForm = res.data
+                        this.ruleForm.sex = res.data.sex === '0' ? '女' : '男'
+                        // this.ruleForm.password = ''
+                    } else {
+                        this.$message.error(res.msg || '操作失败')
+                    }
+                })
+            },
+            submitForm(formName, st) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        if (this.actionType === 'add') {
+                            const params = {
+                                ...this.ruleForm,
+                                sex: this.ruleForm.sex === '女' ? '0' : '1'
+                            }
+                            addEmployee(params).then(res => {
+                                if (res.code === 1) {
+                                    this.$message.success('员工添加成功！')
+                                    if (!st) {
+                                        this.goBack()
+                                    } else {
+                                        this.ruleForm = {
+                                            username: '',
+                                            'name': '',
+                                            'phone': '',
+                                            // 'password': '',
+                                            // 'rePassword': '',/
+                                            'sex': '男',
+                                            'idNumber': ''
+                                        }
+                                    }
+                                } else {
+                                    this.$message.error(res.msg || '操作失败')
+                                }
+                            }).catch(err => {
+                                this.$message.error('请求出错了：' + err)
+                            })
+                        } else {
+                            const params = {
+                                ...this.ruleForm,
+                                sex: this.ruleForm.sex === '女' ? '0' : '1'
+                            }
+                            editEmployee(params).then(res => {
+                                if (res.code === 1) {
+                                    this.$message.success('员工信息修改成功！')
+                                    this.goBack()
+                                } else {
+                                    this.$message.error(res.msg || '操作失败')
+                                }
+                            }).catch(err => {
+                                this.$message.error('请求出错了：' + err)
+                            })
+                        }
+                    } else {
+                        console.log('error submit!!')
+                        return false
+                    }
+                })
+            },
+            goBack() {
+                window.parent.menuHandle({
+                    id: '2',
+                    url: '/backend/page/member/list.html',
+                    name: '员工管理'
+                }, false)
+            }
+        }
+    })
+</script>
+</body>
+</html>
