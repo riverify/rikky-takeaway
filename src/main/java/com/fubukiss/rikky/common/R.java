@@ -33,9 +33,16 @@ public class R<T> {
     /**
      * 动态数据
      */
-    private Map<T, T> map = new HashMap<>();
+    private Map map = new HashMap();
 
 
+    /**
+     * 成功即返回数据和成功代码
+     *
+     * @param object 成功的信息对象
+     * @param <T>
+     * @return
+     */
     public static <T> R<T> success(T object) {
         R<T> r = new R<T>();
         r.data = object;
@@ -43,6 +50,13 @@ public class R<T> {
         return r;
     }
 
+    /**
+     * 失败
+     *
+     * @param msg 错误信息
+     * @param <T>
+     * @return
+     */
     public static <T> R<T> error(String msg) {
         R r = new R();
         r.msg = msg;
