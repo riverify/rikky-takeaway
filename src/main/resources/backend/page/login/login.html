@@ -97,7 +97,7 @@
         created() {
         },
         methods: {
-            // 后端需要传递 code data msg
+            // 后端需要传递 code data msg, 我们会将此数据作为对象封装在 common包中的 R类
             async handleLogin() {
                 this.$refs.loginForm.validate(async (valid) => {
                     if (valid) {
