@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JavaScriptLibraryMappings">
+    <file url="PROJECT" libraries="{@types/element-closest, @types/jquery, @types/vue-chartkick, @types/vue-markdown, element-ui}" />
+  </component>
+</project>
