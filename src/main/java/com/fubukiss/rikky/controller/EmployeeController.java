@@ -81,4 +81,19 @@ public class EmployeeController {
 
     }
 
+
+    /**
+     * <h2>退出登陆</h2>
+     * 只需要清理session中保存的当前登陆员工的id就行了。
+     *
+     * @param request 将要被销毁的request对象。
+     * @return 返回通用返回结果类。
+     */
+    @PostMapping("/logout")
+    public R<String> logout(HttpServletRequest request) {
+        // 清理session中保存的当前登陆员工的id
+        request.getSession().removeAttribute("employee"); // 放入的时候是什么名字，就要把什么名字移除
+        return R.success("退出成功");
+    }
+
 }
