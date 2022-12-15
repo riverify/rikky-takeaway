@@ -28,7 +28,8 @@ public class Employee implements Serializable {
     private String sex;
 
     /**
-     * 身份证号码 使用了驼峰命名法，和employee表中的id_number不同。
+     * 身份证号码
+     * <p>使用了驼峰命名法，和数据库 employee 表中的 id_number 不同。
      * <p>通过在 application.yml 的 mybatis-plus.configuration.map-underscore-to-camel-case 属性设置为 true
      * Mybatis Plus 帮助我们自动实现驼峰命名向 underline 模式的转换。
      * <p>之后的几个变量亦是如此。
