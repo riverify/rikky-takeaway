@@ -51,9 +51,9 @@ public class EmployeeController {
     @PostMapping("/login")
     public R<Employee> login(HttpServletRequest request, @RequestBody Employee employee) {
 
-        // 1.将页面提交的密码password进行md5加密处理
+        // 1.将页面提交的密码password进行md5加密处理，md5加密并非绝对安全的加密方式，它能够防止密码被明文传输，减小风险。
         String password = employee.getPassword();
-        password = DigestUtils.md5DigestAsHex(password.getBytes());
+        password = DigestUtils.md5DigestAsHex(password.getBytes()); // DigestUtils是Spring提供的工具类，用于加密。
 
         // 2.根据用户名查询数据库。（使用 Mybatis-Plus）
         LambdaQueryWrapper<Employee> queryWrapper = new LambdaQueryWrapper<>(); // LambdaQueryWrapper是Mybatis-Plus提供的一个查询条件构造器
