@@ -98,6 +98,7 @@
         },
         methods: {
             // 后端需要传递 code data msg, 我们会将此数据作为对象封装在 common包中的 R类
+            // 想要进一步调试的话，在js文件夹的request.js中调整ajax的超时时间
             async handleLogin() {
                 this.$refs.loginForm.validate(async (valid) => {
                     if (valid) {

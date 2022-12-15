@@ -4,7 +4,7 @@
     const service = axios.create({
         // axios中请求配置有baseURL选项，表示请求URL公共部分
         baseURL: '/',
-        // 超时 临时改为1000s
+        // 超时 临时改为1000s 修改可能会不生效，需要在浏览器中清除缓存后重新访问
         // timeout: 10000 // 请求超时时间为10s
         timeout: 1000000  // 请求超时时间为1000s
     })
