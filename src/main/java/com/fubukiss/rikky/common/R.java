@@ -41,7 +41,7 @@ public class R<T> {
      *
      * @param object 成功的信息对象
      * @param <T>
-     * @return
+     * @return 返回该类的泛型的结果R对象，包含有成功代码和数据
      */
     public static <T> R<T> success(T object) {
         R<T> r = new R<T>();
@@ -55,7 +55,7 @@ public class R<T> {
      *
      * @param msg 错误信息
      * @param <T>
-     * @return
+     * @return 返回该类的泛型的结果R对象，包含有失败代码和错误信息
      */
     public static <T> R<T> error(String msg) {
         R r = new R();

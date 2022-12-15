@@ -15,16 +15,24 @@ public class Employee implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 员工id
+     */
     private Long id;
 
+    /** 用户名 */
     private String username;
 
+    /** 姓名 */
     private String name;
 
+    /** 密码 */
     private String password;
 
+    /** 手机号码 */
     private String phone;
 
+    /** 性别 */
     private String sex;
 
     /**
@@ -36,10 +44,13 @@ public class Employee implements Serializable {
      */
     private String idNumber;
 
+    /** 员工状态：1为在职 */
     private Integer status;
 
+    /** 创建时间 */
     private LocalDateTime createTime;
 
+    /** 更新时间 */
     private LocalDateTime updateTime;
 
     @TableField(fill = FieldFill.INSERT)
