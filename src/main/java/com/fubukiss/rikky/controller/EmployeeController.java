@@ -1,7 +1,6 @@
 package com.fubukiss.rikky.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.ResultMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
