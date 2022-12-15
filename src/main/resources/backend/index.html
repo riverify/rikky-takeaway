@@ -166,9 +166,9 @@
         },
         computed: {},
         created() {
-            const userInfo = window.localStorage.getItem('userInfo')
+            const userInfo = window.localStorage.getItem('userInfo') // 从localStorage中获取用户信息
             if (userInfo) {
-                this.userInfo = JSON.parse(userInfo)
+                this.userInfo = JSON.parse(userInfo) // 将userInfo存入vue实例中
             }
             this.closeLoading()
         },
@@ -181,7 +181,8 @@
         },
         methods: {
             logout() {
-                logoutApi().then((res) => {
+                // 退出登录
+                logoutApi().then((res) => { // 调用退出登录接口
                     if (res.code === 1) {
                         localStorage.removeItem('userInfo')
                         window.location.href = '/backend/page/login/login.html'
