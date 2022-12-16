@@ -17,6 +17,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class RikkyApplication {
     public static void main(String[] args) {
         SpringApplication.run(RikkyApplication.class, args);
-        log.info("项目启动成功 [锐克外卖 version: 1.0-SNAPSHOT]");
+        log.info("项目启动成功 [悦刻外卖 version: 1.0-SNAPSHOT]");
     }
 }
