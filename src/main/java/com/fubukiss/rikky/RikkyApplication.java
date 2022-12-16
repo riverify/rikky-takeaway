@@ -3,6 +3,7 @@ package com.fubukiss.rikky;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 
 /**
  * <p>Project: rikky-takeaway - RikkyApplication
@@ -14,6 +15,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @Slf4j
 @SpringBootApplication
+@ServletComponentScan  // 扫描 Servlet、Filter、Listener 确保过滤器生效
 public class RikkyApplication {
     public static void main(String[] args) {
         SpringApplication.run(RikkyApplication.class, args);
