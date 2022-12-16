@@ -71,7 +71,7 @@ public class LoginCheckFilter implements Filter {
         // 4.判断登陆状态，如果为已登录，则放行
         Object employee = request.getSession().getAttribute("employee");        // 获取session中的employee对象
         if (employee != null) {
-            log.info("本次请求{}，用户id={}，已登录，直接放行", requestURI, employee);         // Slf4j的日志输出
+            log.info("本次请求{}，用户id={}，已登录，直接放行", requestURI, employee);   // Slf4j的日志输出
             filterChain.doFilter(request, response);    // 放行
             return;                                     // 结束方法
         }
