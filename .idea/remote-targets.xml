@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="RemoteTargetsManager">
+    <targets>
+      <target name="root@fubukiss.com:22" type="ssh/sftp" uuid="6df8b735-01ce-4361-a1dc-ef4a543a356a">
+        <config>
+          <option name="projectRootOnTarget" value="/root/rikky-takeaway" />
+          <option name="serverName" value="root@fubukiss.com:22 agent" />
+        </config>
+        <ContributedStateBase type="JavaLanguageRuntime">
+          <config>
+            <option name="javaVersionString" value="1.8.0_352" />
+          </config>
+        </ContributedStateBase>
+      </target>
+    </targets>
+  </component>
+</project>

@@ -153,8 +153,9 @@
             },
             // 添加
             addMemberHandle(st) {
+                // 进入添加页面
                 if (st === 'add') {
-                    window.parent.menuHandle({
+                    window.parent.menuHandle({ // 调用index.html中的方法，实现index.html中的iframe跳转
                         id: '2',
                         url: '/backend/page/member/add.html',
                         name: '添加员工'

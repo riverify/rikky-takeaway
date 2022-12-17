@@ -13,9 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 
 /**
- * <p>Project: rikky-takeaway - EmployeeController
+ * <p>Project: rikky-takeaway - EmployeeController 员工控制器
  * <p>Powered by Riverify On 12-15-2022 18:51:57
  *
  * @author Riverify
@@ -94,6 +95,35 @@ public class EmployeeController {
         // 清理session中保存的当前登陆员工的id
         request.getSession().removeAttribute("employee"); // 放入的时候是什么名字，就要把什么名字移除
         return R.success("退出成功");
+    }
+
+
+    /**
+     * <h2>新增员工</h2>
+     * <p>新增的员工给予默认密码，密码为身份证后6位。
+     *
+     * @param request  通过获取当前request，得到操作员的id。
+     * @param employee 前端传入的员工信息,使用 @RequestBody注解以接收这类 json数据格式，Employee内需要有该 json数据中对应的 key的同名成员变量。
+     * @return 返回通用返回结果类。
+     */
+    @PostMapping
+    public R<String> save(HttpServletRequest request, @RequestBody Employee employee) {
+        log.info("新增员工，员工信息:{}", employee.toString()); // 使用log4j2打印日志
+        // 对员工信息进一步补充
+        // 由于前端未传入密码，默认设置密码为身份证后6位，需要md5加密
+        String password = employee.getIdNumber().substring(employee.getIdNumber().length() - 6);
+        password = DigestUtils.md5DigestAsHex(password.getBytes()); // DigestUtils是Spring提供的工具类，用于加密。
+        employee.setPassword(password); // 设置密码
+        employee.setCreateTime(LocalDateTime.now()); // 设置创建时间
+        employee.setUpdateTime(LocalDateTime.now()); // 设置更新时间
+        Long employeeId = (Long) request.getSession().getAttribute("employee");// 获取当前登陆员工的id，用于设置创建人和更新人
+        employee.setCreateUser(employeeId); // 设置创建人id
+        employee.setUpdateUser(employeeId); // 设置更新人id
+
+        // 调用service层的方法，保存员工信息
+        employeeService.save(employee); // 由于使用了mybatis-plus，在employeeService中继承了IService接口，所以可以直接调用save方法。
+
+        return R.success("新增员工成功");
     }
 
 }

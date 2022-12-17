@@ -161,6 +161,7 @@
                                 ...this.ruleForm,
                                 sex: this.ruleForm.sex === '女' ? '0' : '1'
                             }
+                            // 调用member.js中的addEmployee方法，进行添加
                             addEmployee(params).then(res => {
                                 if (res.code === 1) {
                                     this.$message.success('员工添加成功！')
