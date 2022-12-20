@@ -1,19 +1,19 @@
 package com.fubukiss.rikky.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fubukiss.rikky.common.R;
 import com.fubukiss.rikky.entity.Employee;
 import com.fubukiss.rikky.service.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
+
 
 /**
  * <p>Project: rikky-takeaway - EmployeeController 员工控制器
@@ -45,9 +45,9 @@ public class EmployeeController {
      * 6.如果都正确，将员工id存入session中，返回成功信息。
      * </p>
      *
-     * @param request  通过获取到的request对象，记录 Session等信息，用于后续的账号验证。
-     * @param employee 使用 @RequestBody注解以接收这类 json数据格式，Employee内需要有该 json数据中对应的 key的同名成员变量。
-     * @return 返回通用返回结果类。
+     * @param request  通过获取到的request对象，记录 Session等信息，用于后续的账号验证
+     * @param employee 使用 @RequestBody注解以接收这类 json数据格式，Employee内需要有该 json数据中对应的 key的同名成员变量
+     * @return 返回通用返回结果类
      */
     @PostMapping("/login")
     public R<Employee> login(HttpServletRequest request, @RequestBody Employee employee) {
@@ -87,8 +87,8 @@ public class EmployeeController {
      * <h2>退出登陆</h2>
      * 只需要清理session中保存的当前登陆员工的id就行了。
      *
-     * @param request 将要被销毁的request对象。
-     * @return 返回通用返回结果类。
+     * @param request 将要被销毁的request对象
+     * @return 返回通用返回结果类
      */
     @PostMapping("/logout")
     public R<String> logout(HttpServletRequest request) {
@@ -102,9 +102,9 @@ public class EmployeeController {
      * <h2>新增员工</h2>
      * <p>新增的员工给予默认密码，密码为身份证后6位。
      *
-     * @param request  通过获取当前request，得到操作员的id。
-     * @param employee 前端传入的员工信息,使用 @RequestBody注解以接收这类 json数据格式，Employee内需要有该 json数据中对应的 key的同名成员变量。
-     * @return 返回通用返回结果类。
+     * @param request  通过获取当前request，得到操作员的id
+     * @param employee 前端传入的员工信息,使用 @RequestBody注解以接收这类 json数据格式，Employee内需要有该 json数据中对应的 key的同名成员变量
+     * @return 返回通用返回结果类
      */
     @PostMapping
     public R<String> save(HttpServletRequest request, @RequestBody Employee employee) {
@@ -126,4 +126,30 @@ public class EmployeeController {
         return R.success("新增员工成功");
     }
 
+
+    /**
+     * <h2>根据name分页查询员工信息</h2>
+     * <p>如果name为空，则查询所有员工信息。
+     *
+     * @param page     前端传入的分页信息，一次性传入当前页码
+     * @param pageSize 前端传入的分页信息，一次性传入每页显示的条数
+     * @param name     前端传入的查询条件，员工姓名，若为空，则查询所有员工，name和数据库中的字段名一致，mybatis-plus会自动将name转换为数据库中的字段名
+     * @return Page为mybatis-plus提供的分页工具类，返回的是一个分页对象，里面包含了分页信息和查询结果
+     */
+    @GetMapping("/page")
+    public R<Page> page(int page, int pageSize, String name) {
+        log.info("分页查询的信息，当前页码:{}，每页显示的条数:{}，查询条件:{}", page, pageSize, name);
+        // 构造分页构造器
+        Page<Employee> pageParam = new Page<>(page, pageSize); // 传入的参数为当前页码和每页显示的条数，为Mybatis-plus提供的分页工具类
+        // 构造条件构造器
+        LambdaQueryWrapper<Employee> queryWrapper = new LambdaQueryWrapper<>(); // 为Mybatis-plus提供的条件构造器
+        // 添加过滤条件 like为模糊查询 StringUtils为org.apache.commons.lang.StringUtils，如果name不为空，则添加模糊查询条件
+        queryWrapper.like(StringUtils.isNotEmpty(name), Employee::getName, name); // 设置查询条件，name为数据库中的字段名，Employee::getName为Employee类中的成员变量名
+        // 添加排序条件 按照更新时间降序排序
+        queryWrapper.orderByDesc(Employee::getUpdateTime); // 设置排序条件，Employee::getUpdateTime为Employee类中的成员变量名，按照更新时间降序排序
+        // 调用service层的方法，查询员工信息
+        employeeService.page(pageParam, queryWrapper); // 由于使用了mybatis-plus，在employeeService中继承了IService接口，所以可以直接调用page方法，返回的是一个分页对象，里面包含了分页信息和查询结果
+        // 返回结果
+        return R.success(pageParam); // 返回分页对象
+    }
 }

@@ -138,6 +138,7 @@
                     pageSize: this.pageSize,
                     name: this.input ? this.input : undefined
                 }
+                // getMemberList()
                 await getMemberList(params).then(res => {
                     if (String(res.code) === '1') {
                         this.tableData = res.data.records || []
