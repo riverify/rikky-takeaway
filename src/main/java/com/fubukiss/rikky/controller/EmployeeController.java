@@ -166,7 +166,7 @@ public class EmployeeController {
         employee.setUpdateTime(LocalDateTime.now()); // 设置更新时间
         employee.setUpdateUser(operator); // 设置更新人
         employeeService.updateById(employee); // 由于使用了mybatis-plus，在employeeService中继承了IService接口，所以可以直接调用updateById方法，根据id修改员工信息
-        return null;
+        return R.success("员工状态修改成功");
     }
 
 }

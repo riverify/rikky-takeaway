@@ -51,5 +51,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         converter.setObjectMapper(new JacksonObjectMapper());
         // 将自定义的消息转换器添加到消息转换器列表中
         converters.add(0, converter); // 0表示将自定义的消息转换器放在第一个位置
+
+        log.info("自定义消息转换器已经添加到消息转换器列表中");
     }
 }
