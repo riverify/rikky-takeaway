@@ -169,4 +169,21 @@ public class EmployeeController {
         return R.success("员工状态修改成功");
     }
 
+
+    /**
+     * <h2>根据id查询员工信息</h2>
+     *
+     * @param id 前端传入的员工id，@PathVariable注解表示从路径中获取参数
+     * @return 返回查询结果
+     */
+    @GetMapping("/{id}")
+    public R<Employee> getById(@PathVariable Long id) {
+        log.info("根据id查询员工信息，传入的参数为:{}", id);
+        Employee employee = employeeService.getById(id); // 由于使用了mybatis-plus，在employeeService中继承了IService接口，所以可以直接调用getById方法，根据id查询员工信息
+        if (employee != null) {
+            return R.success(employee);
+        }
+        return R.error("没有查询到员工信息");
+    }
+
 }
