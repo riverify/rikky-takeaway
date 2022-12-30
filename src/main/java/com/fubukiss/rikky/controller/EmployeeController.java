@@ -12,7 +12,6 @@ import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDateTime;
 
 
 /**
@@ -114,11 +113,11 @@ public class EmployeeController {
         String password = employee.getIdNumber().substring(employee.getIdNumber().length() - 6);
         password = DigestUtils.md5DigestAsHex(password.getBytes()); // DigestUtils是Spring提供的工具类，用于加密。
         employee.setPassword(password); // 设置密码
-        employee.setCreateTime(LocalDateTime.now()); // 设置创建时间
-        employee.setUpdateTime(LocalDateTime.now()); // 设置更新时间
-        Long employeeId = (Long) request.getSession().getAttribute("employee");// 获取当前登陆员工的id，用于设置创建人和更新人
-        employee.setCreateUser(employeeId); // 设置创建人id
-        employee.setUpdateUser(employeeId); // 设置更新人id
+//        employee.setCreateTime(LocalDateTime.now()); // 设置创建时间
+//        employee.setUpdateTime(LocalDateTime.now()); // 设置更新时间
+//        Long employeeId = (Long) request.getSession().getAttribute("employee");// 获取当前登陆员工的id，用于设置创建人和更新人
+//        employee.setCreateUser(employeeId); // 设置创建人id
+//        employee.setUpdateUser(employeeId); // 设置更新人id
 
         // 调用service层的方法，保存员工信息
         employeeService.save(employee); // 由于使用了mybatis-plus，在employeeService中继承了IService接口，所以可以直接调用save方法。
@@ -162,9 +161,13 @@ public class EmployeeController {
     @PutMapping
     public R<String> update(HttpServletRequest request, @RequestBody Employee employee) {
         log.info("修改员工信息，传入的参数为:{}", employee);
-        Long operator = (Long) request.getSession().getAttribute("employee");// 获取当前登录用户的id
-        employee.setUpdateTime(LocalDateTime.now()); // 设置更新时间
-        employee.setUpdateUser(operator); // 设置更新人
+
+//        long id = Thread.currentThread().getId();                            // 获取当前线程的id
+//        log.info("当前线程id={}", id);                                        // Slf4j的日志输出
+
+//        Long operator = (Long) request.getSession().getAttribute("employee");// 获取当前登录用户的id
+//        employee.setUpdateTime(LocalDateTime.now());    // 设置更新时间
+//        employee.setUpdateUser(operator);               // 设置更新人
         employeeService.updateById(employee); // 由于使用了mybatis-plus，在employeeService中继承了IService接口，所以可以直接调用updateById方法，根据id修改员工信息
         return R.success("员工状态修改成功");
     }

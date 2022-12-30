@@ -48,15 +48,17 @@ public class Employee implements Serializable {
     private Integer status;
 
     /** 创建时间 */
+    @TableField(fill = FieldFill.INSERT) // 自动填充，插入时自动填充 Mybatis Plus功能
     private LocalDateTime createTime;
 
     /** 更新时间 */
+    @TableField(fill = FieldFill.INSERT_UPDATE) // 自动填充，插入和更新时自动填充
     private LocalDateTime updateTime;
 
-    @TableField(fill = FieldFill.INSERT)
+    @TableField(fill = FieldFill.INSERT)    // 自动填充，插入时自动填充
     private Long createUser;
 
-    @TableField(fill = FieldFill.INSERT_UPDATE)
+    @TableField(fill = FieldFill.INSERT_UPDATE) // 自动填充，插入和更新时自动填充
     private Long updateUser;
 
 }

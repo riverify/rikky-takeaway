@@ -1,6 +1,7 @@
 package com.fubukiss.rikky.filter;
 
 import com.alibaba.fastjson.JSON;
+import com.fubukiss.rikky.common.BaseContext;
 import com.fubukiss.rikky.common.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.AntPathMatcher;
@@ -69,9 +70,13 @@ public class LoginCheckFilter implements Filter {
         }
 
         // 4.判断登陆状态，如果为已登录，则放行
-        Object employee = request.getSession().getAttribute("employee");        // 获取session中的employee对象
-        if (employee != null) {
-            log.info("本次请求{}，用户id={}，已登录，直接放行", requestURI, employee);   // Slf4j的日志输出
+        Object employeeId = request.getSession().getAttribute("employee");        // 获取session中的employee对象
+        if (employeeId != null) {
+            log.info("本次请求{}，用户id={}，已登录，直接放行", requestURI, employeeId);   // Slf4j的日志输出
+
+            // 在该线程中保存当前用户的id，BaseContext为common包中的工具类，用于保存当前线程的数据
+            BaseContext.setCurrentId((Long) employeeId);
+
             filterChain.doFilter(request, response);    // 放行
             return;                                     // 结束方法
         }
