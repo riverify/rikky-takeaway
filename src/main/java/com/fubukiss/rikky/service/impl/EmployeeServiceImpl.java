@@ -15,5 +15,6 @@ import org.springframework.stereotype.Service;
  * @since JDK8
  */
 @Service
-public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> implements EmployeeService { // ServiceImpl<Mapper, Entity> 为MyBatis-Plus提供的基础实现类，<>中的两个泛型分别为Mapper接口和Entity实体类
+public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> implements EmployeeService {
+    // ServiceImpl<Mapper, Entity> 为MyBatis-Plus提供的基础实现类，<>中的两个泛型分别为Mapper接口和Entity实体类
 }
