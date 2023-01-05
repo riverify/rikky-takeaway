@@ -1,0 +1,135 @@
+html,
+body {
+    max-width: 750px;
+    height: 100%;
+    background: #f3f2f7;
+    font-family: Helvetica;
+    overflow: hidden;
+}
+
+html,
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+li {
+    margin: 0;
+    padding: 0;
+}
+
+ul,
+li {
+    list-style: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: normal;
+}
+
+h3 {
+    font-size: 16px;
+}
+
+h4 {
+    font-size: 14px;
+}
+
+p {
+    font-size: 12px;
+}
+
+em,
+i {
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "DIN-Medium";
+    src: url("../fonts/DIN-Medium.otf");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "DIN";
+    src: url("../fonts/DIN-Bold.otf");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "PingFangSC-Regular";
+    src: url("../fonts/PingFangSC-Regular.ttf");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "PingFangSC-Regular";
+    src: url("../fonts/PingFangSC-Regular.ttf");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "PingFangSC-Semibold";
+    src: url("../fonts/PingFangSC-Semibold.ttf");
+    font-weight: normal;
+    font-style: normal;
+}
+
+.app {
+    height: 100%;
+}
+
+.van-overlay {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.van-dialog {
+    overflow: inherit;
+}
+
+::-webkit-input-placeholder {
+    font-size: 13rem;
+    font-family: PingFangSC, PingFangSC-Regular;
+    font-weight: 400;
+    text-align: left;
+    color: #999999;
+}
+
+:-moz-placeholder {
+    /* Firefox 18- */
+    font-size: 13rem;
+    font-family: PingFangSC, PingFangSC-Regular;
+    font-weight: 400;
+    text-align: left;
+    color: #999999;
+}
+
+::-moz-placeholder {
+    /* Firefox 19+ */
+    font-size: 13rem;
+    font-family: PingFangSC, PingFangSC-Regular;
+    font-weight: 400;
+    text-align: left;
+    color: #999999;
+}
+
+:-ms-input-placeholder {
+    font-size: 13rem;
+    font-family: PingFangSC, PingFangSC-Regular;
+    font-weight: 400;
+    text-align: left;
+    color: #999999;
+}

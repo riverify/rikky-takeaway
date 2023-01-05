@@ -1,0 +1,20 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: rikky_takeaway  # 应用名称
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      # 本人将使用服务器启动项填写以下敏感信息 #
+      url: # 出于安全原因，弃用数据库url，请自行配置
+      username: # 出于安全原因，删除用户名，请自行配置
+      password: # 密码由于安全原因，已经删除并修改，本地测试时请自行添加
+mybatis-plus:
+  configuration:
+    # 在映射实体或者属性时，将数据库中表名和字段名中的下划线去掉，按照驼峰命名法映射
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: ASSIGN_ID

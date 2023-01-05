@@ -1,0 +1,153 @@
+#order {
+    height: 100%;
+}
+
+#order .divHead {
+    width: 100%;
+    height: 88rem;
+    opacity: 1;
+    background: #333333;
+    position: relative;
+}
+
+#order .divHead .divTitle {
+    font-size: 18rem;
+    font-family: PingFangSC, PingFangSC-Regular;
+    font-weight: 500;
+    text-align: center;
+    color: #ffffff;
+    line-height: 25rem;
+    letter-spacing: 0;
+    position: absolute;
+    bottom: 13rem;
+    width: 100%;
+}
+
+#order .divHead .divTitle i {
+    position: absolute;
+    left: 16rem;
+    top: 50%;
+    transform: translate(0, -50%);
+}
+
+#order .divBody {
+    margin: 10rem 12rem 10rem 12rem;
+    background: #ffffff;
+    border-radius: 6rem;
+    padding-left: 10rem;
+    padding-right: 10rem;
+    height: calc(100% - 108rem);
+    overflow-y: auto;
+}
+
+#order .divBody .van-list .van-cell::after {
+    border: 0;
+}
+
+#order .divBody .item .timeStatus {
+    height: 46rem;
+    line-height: 16rem;
+    font-size: 14rem;
+    font-family: PingFangSC, PingFangSC-Regular;
+    font-weight: 400;
+    text-align: left;
+    color: #666666;
+    line-height: 20rem;
+    letter-spacing: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2rem dashed #efefef;
+    border-top: 1px solid #efefef;
+}
+
+#order .divBody .item .timeStatus span:first-child {
+    color: #333333;
+}
+
+#order .divBody .item .dishList {
+    padding-top: 10rem;
+    padding-bottom: 11rem;
+}
+
+#order .divBody .item .dishList .item {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+    display: flex;
+    justify-content: space-between;
+    height: 20rem;
+    opacity: 1;
+    font-size: 14rem;
+    font-family: PingFangSC, PingFangSC-Regular;
+    font-weight: 400;
+    text-align: left;
+    color: #666666;
+    line-height: 20rem;
+    letter-spacing: 0;
+}
+
+#order .divBody .item .result {
+    display: flex;
+    justify-content: flex-end;
+    height: 20rem;
+    opacity: 1;
+    font-size: 14rem;
+    font-family: PingFangSC, PingFangSC-Regular;
+    font-weight: 400;
+    text-align: left;
+    color: #666666;
+    line-height: 20rem;
+}
+
+#order .divBody .item .result .price {
+    color: #343434;
+}
+
+#order .divBody .item .btn {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 17rem;
+    margin-top: 20rem;
+}
+
+#order .divBody .btn .btnAgain {
+    width: 124rem;
+    height: 36rem;
+    opacity: 1;
+    border: 1px solid #e5e4e4;
+    border-radius: 19rem;
+    opacity: 1;
+    font-size: 14rem;
+    font-family: PingFangSC, PingFangSC-Regular;
+    font-weight: 500;
+    text-align: center;
+    color: #333333;
+    line-height: 36rem;
+    letter-spacing: 0;
+    position: relative;
+}
+
+#order .divNoData {
+    width: 100%;
+    height: calc(100% - 88rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#order .divNoData .divContainer img {
+    width: 240rem;
+    height: 129rem;
+}
+
+#order .divNoData .divContainer div {
+    font-size: 24rem;
+    font-family: PingFangSC, PingFangSC-Medium;
+    font-weight: 500;
+    text-align: center;
+    color: #333333;
+    line-height: 33rem;
+    height: 33rem;
+    margin-top: 20rem;
+}

@@ -1,0 +1,157 @@
+#address_edit {
+    height: 100%;
+}
+
+#address_edit .divHead {
+    width: 100%;
+    height: 88rem;
+    opacity: 1;
+    background: #333333;
+    position: relative;
+}
+
+#address_edit .divHead .divTitle {
+    font-size: 18rem;
+    font-family: PingFangSC, PingFangSC-Regular;
+    font-weight: 500;
+    text-align: center;
+    color: #ffffff;
+    line-height: 25rem;
+    letter-spacing: 0;
+    position: absolute;
+    bottom: 13rem;
+    width: 100%;
+}
+
+#address_edit .divHead .divTitle i {
+    position: absolute;
+    left: 16rem;
+    top: 50%;
+    transform: translate(0, -50%);
+}
+
+#address_edit .divContent {
+    height: 100%;
+    opacity: 1;
+    background: #ffffff;
+    padding-left: 9rem;
+    padding-right: 9rem;
+}
+
+#address_edit .divContent .divItem {
+    height: 55rem;
+    line-height: 55rem;
+    font-size: 14rem;
+    font-family: PingFangSC, PingFangSC-Regular;
+    font-weight: 500;
+    text-align: left;
+    color: #333333;
+    line-height: 20rem;
+    letter-spacing: 0rem;
+    border-bottom: 1px solid #efefef;
+    display: flex;
+    align-items: center;
+}
+
+#address_edit .divContent .divItem .el-input {
+    width: auto;
+}
+
+#address_edit .divContent .divItem input {
+    border: 0;
+    padding: 0;
+}
+
+#address_edit .divContent .divItem .inputUser {
+    width: 150rem;
+}
+
+#address_edit .divContent .divItem span {
+    display: block;
+}
+
+#address_edit .divContent .divItem span:first-child {
+    margin-right: 12rem;
+    white-space: nowrap;
+    width: 69rem;
+}
+
+#address_edit .divContent .divItem .spanChecked {
+    width: 50rem;
+}
+
+#address_edit .divContent .divItem span i {
+    width: 16rem;
+    height: 16rem;
+    background: url(./../images/checked_false.png);
+    display: inline-block;
+    background-size: cover;
+    vertical-align: sub;
+}
+
+#address_edit .divContent .divItem span .iActive {
+    background: url(./../images/checked_true.png);
+    background-size: cover;
+}
+
+#address_edit .divContent .divItem .spanItem {
+    width: 34rem;
+    height: 20rem;
+    opacity: 1;
+    border: 1px solid #e5e4e4;
+    border-radius: 3rem;
+    text-align: center;
+    margin-right: 10rem;
+    border-radius: 2px;
+    font-family: PingFangSC, PingFangSC-Regular;
+    font-weight: 400;
+    color: #333333;
+}
+
+#address_edit .divContent .divItem .spanActiveCompany {
+    background: #e1f1fe;
+}
+
+#address_edit .divContent .divItem .spanActiveHome {
+    background: #fef8e7;
+}
+
+#address_edit .divContent .divItem .spanActiveSchool {
+    background: #e7fef8;
+}
+
+#address_edit .divContent .divItem .el-input__inner {
+    font-size: 13px;
+    font-family: PingFangSC, PingFangSC-Regular;
+    font-weight: 400;
+    text-align: left;
+    color: #333333;
+}
+
+#address_edit .divContent .divSave {
+    height: 36rem;
+    opacity: 1;
+    background: #ffc200;
+    border-radius: 18rem;
+    font-size: 15rem;
+    font-family: PingFangSC, PingFangSC-Regular;
+    font-weight: 500;
+    text-align: center;
+    color: #333333;
+    line-height: 36rem;
+    margin-top: 20rem;
+}
+
+#address_edit .divContent .divDelete {
+    height: 36rem;
+    opacity: 1;
+    background: #f6f6f6;
+    border-radius: 18rem;
+    font-size: 15rem;
+    font-family: PingFangSC, PingFangSC-Regular;
+    font-weight: 500;
+    text-align: center;
+    color: #333333;
+    line-height: 36rem;
+    margin-top: 20rem;
+}

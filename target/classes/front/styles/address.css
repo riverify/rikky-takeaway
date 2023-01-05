@@ -1,0 +1,162 @@
+#address .divHead {
+    width: 100%;
+    height: 88rem;
+    opacity: 1;
+    background: #333333;
+    position: relative;
+}
+
+#address .divHead .divTitle {
+    font-size: 18rem;
+    font-family: PingFangSC, PingFangSC-Regular;
+    font-weight: 500;
+    text-align: center;
+    color: #ffffff;
+    line-height: 25rem;
+    letter-spacing: 0;
+    position: absolute;
+    bottom: 13rem;
+    width: 100%;
+}
+
+#address .divHead .divTitle i {
+    position: absolute;
+    left: 16rem;
+    top: 50%;
+    transform: translate(0, -50%);
+}
+
+#address .divContent {
+    height: calc(100vh - 157rem);
+    overflow: auto;
+}
+
+#address .divContent .divItem {
+    height: 128rem;
+    opacity: 1;
+    background: #ffffff;
+    border-radius: 6rem;
+    margin-top: 10rem;
+    margin-left: 10rem;
+    margin-right: 9rem;
+    padding-left: 12rem;
+    position: relative;
+}
+
+#address .divContent .divItem > img {
+    width: 16rem;
+    height: 16rem;
+    position: absolute;
+    top: 40rem;
+    right: 24rem;
+}
+
+#address .divContent .divItem .divDefault img {
+    width: 16rem;
+    height: 16rem;
+    opacity: 1;
+}
+
+#address .divContent .divItem .divAddress {
+    font-size: 14rem;
+    font-family: PingFangSC, PingFangSC-Regular;
+    font-weight: 400;
+    text-align: left;
+    color: #333333;
+    line-height: 20rem;
+    letter-spacing: 0;
+    padding-top: 21rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 280rem;
+}
+
+#address .divContent .divItem .divAddress span {
+    width: 34rem;
+    height: 20rem;
+    opacity: 1;
+    font-size: 12rem;
+    display: inline-block;
+    text-align: center;
+    margin-right: 4rem;
+    margin-bottom: 10rem;
+}
+
+#address .divContent .divItem .divUserPhone span {
+    height: 20rem;
+    opacity: 1;
+    font-size: 14rem;
+    font-family: PingFangSC, PingFangSC-Regular;
+    font-weight: 400;
+    text-align: left;
+    color: #999999;
+    line-height: 20rem;
+    letter-spacing: 0;
+    margin-right: 10rem;
+}
+
+#address .divContent .divItem .divUserPhone span:first-child {
+    margin-right: 2rem;
+}
+
+#address .divContent .divItem .divAddress .spanCompany {
+    background-color: #e1f1fe;
+}
+
+#address .divContent .divItem .divAddress .spanHome {
+    background: #fef8e7;
+}
+
+#address .divContent .divItem .divAddress .spanSchool {
+    background: #e7fef8;
+}
+
+#address .divContent .divItem .divSplit {
+    height: 1px;
+    opacity: 1;
+    background: #efefef;
+    border: 0;
+    margin-top: 16rem;
+    margin-bottom: 10rem;
+    margin-right: 10rem;
+}
+
+#address .divContent .divItem .divDefault {
+    height: 18rem;
+    opacity: 1;
+    font-size: 13rem;
+    font-family: PingFangSC, PingFangSC-Regular;
+    font-weight: 400;
+    text-align: left;
+    color: #333333;
+    line-height: 18rem;
+    letter-spacing: 0;
+}
+
+#address .divContent .divItem .divDefault img {
+    height: 18rem;
+    width: 18rem;
+    margin-right: 5rem;
+    vertical-align: bottom;
+}
+
+#address .divBottom {
+    height: 36rem;
+    opacity: 1;
+    background: #ffc200;
+    border-radius: 18rem;
+    opacity: 1;
+    font-size: 15rem;
+    font-family: PingFangSC, PingFangSC-Regular;
+    font-weight: 500;
+    text-align: center;
+    color: #333333;
+    line-height: 36rem;
+    letter-spacing: 0;
+    position: absolute;
+    bottom: 23rem;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 334rem;
+}
