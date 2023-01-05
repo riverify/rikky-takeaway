@@ -28,7 +28,7 @@ import java.sql.SQLIntegrityConstraintViolationException;
 public class GlobalExceptionHandler {
 
     /**
-     * 处理SQLIntegrityConstraintViolationException异常，本项目中主要处理注册时输入重复账号
+     * 处理SQLIntegrityConstraintViolationException异常，本项目中主要处理注册时输入重复数据的异常
      * <p>SQL报错的错误信息进行切片处理，返回特定的错误信息，即某个账号已存在。
      *
      * @param exception 异常，example：com.mysql.cj.jdbc.exceptions.SQLIntegrityConstraintViolationException: Duplicate entry 'riverify' for key 'username'
@@ -41,7 +41,7 @@ public class GlobalExceptionHandler {
         if (exception.getMessage().contains("Duplicate entry")) {
             // 提取出错误的具体情况，并返回给前端
             String[] split = exception.getMessage().split("'"); // Duplicate entry 'riverify' for key 'employee.idx_username' 以单引号切片
-            return R.error("账号:" + split[1] + "已存在"); // 返回数据重复的账号, 即账号riverify已存在
+            return R.error(split[1] + " 已存在"); // 返回数据重复的账号, 如 riverify已存在
         }
         // 其他异常，返回未知错误
         return R.error("操作失败，未知错误");

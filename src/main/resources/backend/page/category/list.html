@@ -177,6 +177,7 @@
         },
         methods: {
             async init() {
+                // 获取分类列表，转入category.js
                 await getCategoryPage({'page': this.page, 'pageSize': this.pageSize}).then(res => {
                     if (String(res.code) === '1') {
                         this.tableData = res.data.records
