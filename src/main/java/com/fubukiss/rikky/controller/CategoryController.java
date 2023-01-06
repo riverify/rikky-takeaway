@@ -44,9 +44,9 @@ public class CategoryController {
     /**
      * <h2>显示菜品分类列表<h2/>
      *
-     * @param page
-     * @param pageSize
-     * @return
+     * @param page     前端传递的分页参数
+     * @param pageSize 前端传递的分页参数
+     * @return 返回R对象，R对象为自定义的返回对象，用于统一返回数据格式，这里返回的是分页对象，在前端页面中，我们需要将分页对象中的数据进行展示
      */
     @GetMapping("/page")
     public R<Page> page(int page, int pageSize) {
@@ -60,6 +60,21 @@ public class CategoryController {
         categoryService.page(pageInfo, queryWrapper); // 调用Service层的page方法，将分页构造器和条件构造器传入，返回分页数据，得到的数据会自动填充到pageInfo中
 
         return R.success(pageInfo); // 返回分页数据
+    }
+
+
+    /**
+     * <h2>根据id删除菜品分类<h2/>
+     *
+     * @param id 菜品分类id
+     * @return 返回结果
+     */
+    @DeleteMapping
+    public R<String> delete(Long id) {
+        log.info("删除菜品分类，id={}", id);
+        categoryService.removeById(id); // 调用Service层的removeById方法，根据id删除菜品分类
+
+        return R.success("分类信息删除成功");
     }
 
 }

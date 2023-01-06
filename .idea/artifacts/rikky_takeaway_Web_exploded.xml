@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="rikky-takeaway:Web exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/rikky_takeaway_Web_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="rikky-takeaway/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="rikky-takeaway" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

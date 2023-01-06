@@ -3,6 +3,35 @@
   <component name="EasyCodeTableSetting">
     <option name="tableInfoMap">
       <map>
+        <entry key="com.fubukiss.rikky.controller.CategoryController">
+          <value>
+            <TableInfoDTO>
+              <option name="comment" value="&lt;p&gt;Project: rikky-takeaway - CategoryController 分类管理的Controller类" />
+              <option name="fullColumn">
+                <list>
+                  <ColumnInfoDTO>
+                    <option name="custom" value="false" />
+                    <option name="ext" value="{}" />
+                    <option name="name" value="categoryService" />
+                    <option name="type" value="com.fubukiss.rikky.service.CategoryService" />
+                  </ColumnInfoDTO>
+                  <ColumnInfoDTO>
+                    <option name="custom" value="false" />
+                    <option name="ext" value="{}" />
+                    <option name="name" value="log" />
+                    <option name="type" value="org.slf4j.Logger" />
+                  </ColumnInfoDTO>
+                </list>
+              </option>
+              <option name="name" value="CategoryController" />
+              <option name="preName" value="" />
+              <option name="saveModelName" value="" />
+              <option name="savePackageName" value="" />
+              <option name="savePath" value="" />
+              <option name="templateGroupName" value="" />
+            </TableInfoDTO>
+          </value>
+        </entry>
         <entry key="com.fubukiss.rikky.entity.Employee">
           <value>
             <TableInfoDTO>
