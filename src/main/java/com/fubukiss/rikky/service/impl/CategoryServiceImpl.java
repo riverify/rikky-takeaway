@@ -2,6 +2,7 @@ package com.fubukiss.rikky.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.fubukiss.rikky.common.CustomException;
 import com.fubukiss.rikky.entity.Category;
 import com.fubukiss.rikky.entity.Dish;
 import com.fubukiss.rikky.entity.Setmeal;
@@ -45,7 +46,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         int count = dishService.count(dishLambdaQueryWrapper);  // count means : select count(*) from "Dish"
         // 查询当前分类是否关联了菜品，如果关联了则不能删除，抛出一个业务异常
         if (count > 0) {
-
+            throw new CustomException("该分类下存在菜品，故不能删除");
         }
 
         // 构造Setmeal查询条件（同上）
@@ -54,7 +55,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         count = setmealService.count(setmealLambdaQueryWrapper);
         // 同理查询分类是否关联了套餐，如果关联了则不能删除，抛出一个业务异常
         if (count > 0) {
-
+            throw new CustomException("该分类下存在套餐，故不能删除");
         }
 
         // 正常删除分类

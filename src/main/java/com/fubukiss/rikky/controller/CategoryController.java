@@ -72,7 +72,7 @@ public class CategoryController {
     @DeleteMapping
     public R<String> delete(Long id) {
         log.info("删除菜品分类，id={}", id);
-        categoryService.removeById(id); // 调用Service层的removeById方法，根据id删除菜品分类
+        categoryService.remove(id); // 调用Service层的remove方法，根据id删除菜品分类，这里的remove为非MP自带的方法，是自己在Service层中添加的方法
 
         return R.success("分类信息删除成功");
     }
