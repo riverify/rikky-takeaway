@@ -12,4 +12,12 @@ import com.fubukiss.rikky.entity.Category;
  * @since JDK8
  */
 public interface CategoryService extends IService<Category> {
+
+    /**
+     * 删除分类
+     *
+     * @param id 分类id
+     */
+    void remove(Long id);
+
 }
