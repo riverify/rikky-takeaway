@@ -30,7 +30,7 @@ public class GlobalExceptionHandler {
     /**
      * 处理异常{@link SQLIntegrityConstraintViolationException}，本项目中主要处理注册时输入重复数据的异常
      * <p>SQL报错的错误信息进行切片处理，返回特定的错误信息，即某个账号已存在。
-     * <p>通过 @ExceptionHandler注解声明该方法是一个异常处理方法，可以处理的异常类型为 {@link SQLIntegrityConstraintViolationException}
+     * <p>通过 @ExceptionHandler注解声明该方法是一个异常处理方法，可以处理的异常类型为 {@link SQLIntegrityConstraintViolationException}。
      *
      * @param exception 异常，example：com.mysql.cj.jdbc.exceptions.SQLIntegrityConstraintViolationException: Duplicate entry 'riverify' for key 'username'
      * @return 返回一个通用的结果对象
@@ -50,10 +50,10 @@ public class GlobalExceptionHandler {
 
     /**
      * 处理自定义异常{@link CustomException}，通过在程序中使用如：throw new CustomException("xxx")抛出异常后，在这里被捕获并返回给前端(使用R对象包装)
-     * <p>通过 @ExceptionHandler注解声明该方法是一个异常处理方法，可以处理的异常类型为 {@link CustomException}
+     * <p>通过 @ExceptionHandler注解声明该方法是一个异常处理方法，可以处理的异常类型为 {@link CustomException}。
      *
-     * @param exception
-     * @return
+     * @param exception 自定义异常
+     * @return 返回一个通用的结果对象，用于前端错误内容的展示
      */
     @ExceptionHandler(CustomException.class)
     public R<String> exceptionHandler(CustomException exception) {
