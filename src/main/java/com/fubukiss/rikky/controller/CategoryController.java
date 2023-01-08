@@ -2,6 +2,7 @@ package com.fubukiss.rikky.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fubukiss.rikky.common.CustomException;
 import com.fubukiss.rikky.common.R;
 import com.fubukiss.rikky.entity.Category;
 import com.fubukiss.rikky.service.CategoryService;
@@ -65,6 +66,7 @@ public class CategoryController {
 
     /**
      * <h2>根据id删除菜品分类<h2/>
+     * <p>如果分类或套餐中仍有菜品，则不允许删除，抛出{@link CustomException}异常
      *
      * @param id 菜品分类id
      * @return 返回结果
@@ -76,5 +78,6 @@ public class CategoryController {
 
         return R.success("分类信息删除成功");
     }
+
 
 }
