@@ -80,4 +80,19 @@ public class CategoryController {
     }
 
 
+    /**
+     * <h2>修改菜品分类信息<h2/>
+     *
+     * @param category 菜品分类实体类，@RequestBody注解用于接收前端传递的json数据
+     * @return 返回通用返回结果类
+     */
+    @PutMapping
+    public R<String> update(@RequestBody Category category) {
+        log.info("修改菜品分类信息：{}", category);
+        categoryService.updateById(category);   // 调用Service层的updateById方法，根据id修改菜品分类信息
+
+        return R.success("修改信息成功");
+    }
+
+
 }
