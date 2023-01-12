@@ -12,4 +12,5 @@ import com.fubukiss.rikky.entity.DishFlavor;
  * @since JDK8
  */
 public interface DishFlavorService extends IService<DishFlavor> {
+
 }

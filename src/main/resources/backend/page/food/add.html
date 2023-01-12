@@ -324,6 +324,7 @@
             }
         },
         created() {
+            // 获取菜品分类的信息
             this.getDishList()
             // 口味临时数据
             this.getFlavorListHand()
@@ -394,7 +395,7 @@
                 }
             },
 
-            // 获取菜品分类
+            // 获取菜品分类(type == 1 为菜品分类)
             getDishList() {
                 getCategoryList({'type': 1}).then(res => {
                     if (res.code === 1) {

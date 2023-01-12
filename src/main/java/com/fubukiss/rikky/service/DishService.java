@@ -1,6 +1,7 @@
 package com.fubukiss.rikky.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.fubukiss.rikky.dto.DishDto;
 import com.fubukiss.rikky.entity.Dish;
 
 
@@ -13,4 +14,11 @@ import com.fubukiss.rikky.entity.Dish;
  * @since JDK8
  */
 public interface DishService extends IService<Dish> {
+
+    /**
+     * 添加菜品，同时插入口味的数据
+     *
+     * @param dishDto 菜品数据
+     */
+    void saveWithFlavors(DishDto dishDto);
 }

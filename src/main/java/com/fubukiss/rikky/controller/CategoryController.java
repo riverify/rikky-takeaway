@@ -10,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * <p>Project: rikky-takeaway - CategoryController 分类管理的Controller类
  * <p>Powered by Riverify On 01-02-2023 21:48:43
@@ -92,6 +94,29 @@ public class CategoryController {
         categoryService.updateById(category);   // 调用Service层的updateById方法，根据id修改菜品分类信息
 
         return R.success("修改信息成功");
+    }
+
+
+    /**
+     * <h2>获取分类列表<h2/>
+     *
+     * @param category 实体类，用于接收前端传递的参数。在前端需要获取分类信息列表以添加菜品时，实体类内的参数为type = 1（1为菜品，2为套餐）。
+     *                 同时本方法也能有其他类似功能，返回为List。由于前段传入的不是json数据，所以不需要使用@RequestBody注解。
+     * @return 返回分类的List
+     */
+    @GetMapping("/list")
+    public R<List<Category>> list(Category category) {
+        // 条件构造器 type = ?
+        LambdaQueryWrapper<Category> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        // 添加条件 type = ?
+        lambdaQueryWrapper.eq(category.getType() != null, Category::getType, category.getType()); // 第一个参数为条件，如果为true，则添加条件，否则不添加
+        // 添加排序条件 sort asc by 'sort', and then desc by 'update_time'
+        lambdaQueryWrapper.orderByAsc(Category::getSort).orderByDesc(Category::getUpdateTime);
+        // 调用Service层的list方法，将条件构造器传入，返回分类的List
+        List<Category> list = categoryService.list(lambdaQueryWrapper);
+
+        // 返回分类的List
+        return R.success(list);
     }
 
 
