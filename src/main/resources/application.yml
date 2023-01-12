@@ -21,5 +21,5 @@ mybatis-plus:
       id-type: ASSIGN_ID
 
 rikky:
-  linux-path: /home/river/code/IdeaProjects/rikky-takeaway/  # 本地测试时，文件存储路径
+  linux-path: /home/river/code/IdeaProjects/rikky-takeaway/img/  # 本地测试时，文件存储路径
 #  windows-path:
