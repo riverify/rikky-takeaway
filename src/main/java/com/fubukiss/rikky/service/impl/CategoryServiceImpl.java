@@ -34,7 +34,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
 
 
     /**
-     * 删除分类,在删除之前需要判断该分类下是否有菜品(Dish)或者套餐(Setmeal)，如果有则不能删除该分类
+     * 自定义一个删除删除分类的服务满足特殊业务需求，即在删除之前需要判断该分类下是否有菜品(Dish)或者套餐(Setmeal)，如果有则不能删除该分类
      *
      * @param id 分类id
      */
