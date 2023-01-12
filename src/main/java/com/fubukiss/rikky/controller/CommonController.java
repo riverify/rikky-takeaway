@@ -103,6 +103,7 @@ public class CommonController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         } finally {
+            // 关闭流
             try {
                 if (fileInputStream != null) {
                     fileInputStream.close();
