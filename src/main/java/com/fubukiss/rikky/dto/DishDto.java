@@ -30,7 +30,7 @@ public class DishDto extends Dish {         // 这里继承了Dish实体类，�
     private List<DishFlavor> flavors = new ArrayList<>(); // 同一个食材可以有多个风味选项，故这里使用List
 
     /**
-     *
+     * 分类名
      */
     private String categoryName;
 
