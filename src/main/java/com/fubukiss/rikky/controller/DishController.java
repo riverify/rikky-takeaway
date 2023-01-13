@@ -1,6 +1,7 @@
 package com.fubukiss.rikky.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fubukiss.rikky.common.R;
 import com.fubukiss.rikky.dto.DishDto;
@@ -146,6 +147,29 @@ public class DishController {
         log.info("修改菜品，dishDto: {}", dishDto.toString());       // Slf4j的日志输出
         // 保存菜品
         dishService.updateWithFlavors(dishDto);
+
+        return R.success("修改成功");
+    }
+
+
+    /**
+     * <h2>修改菜品状态，如果是停售，则修改为在售，如果是在售，则修改为停售<h2/>
+     *
+     * @param ids    前端传入的菜品id
+     * @param status 菜品需要修改成的状态
+     * @return 通用返回类，返回结果消息
+     */
+    @PostMapping("/status/{status}")
+    public R<String> changeStatus(Long ids, @PathVariable Integer status) {
+        log.info("修改菜品状态，id: {}, status: {}", ids, status);
+        // 条件构造器
+        LambdaUpdateWrapper<Dish> wrapper = new LambdaUpdateWrapper<>();
+        // 设置条件 (where id = id)
+        wrapper.eq(Dish::getId, ids);
+        // 设置要修改的字段 (set status = status)
+        wrapper.set(Dish::getStatus, status);
+        // 执行修改
+        dishService.update(wrapper);
 
         return R.success("修改成功");
     }
