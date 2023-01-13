@@ -157,7 +157,7 @@ public class DishController {
      * <p>能够批量修改状态
      *
      * @param ids    前端传入的菜品id，可能是一个，也可能是多个，多个数据是以逗号分隔的
-     * @param status 菜品需要修改成的状态
+     * @param status 菜品需要修改成的状态，该参数是在路径中传入的，所以需要使用@PathVariable注解
      * @return 通用返回类，返回结果消息
      */
     @PostMapping("/status/{status}")
@@ -182,21 +182,30 @@ public class DishController {
 
 
     /**
-     * <h2>删除菜品（修改isDeleted字段为1<h2/>
+     * <h2>删除菜品（逻辑删除)<h2/>
+     * <p>能够批量删除操作
      *
-     * @param ids 前端传入的菜品id
+     * @param ids 前端传入的菜品id，可能是一个，也可能是多个，多个数据是以逗号分隔的
      * @return 通用返回类，返回结果消息
      */
-    public R<String> delete(Long ids) {
+    @DeleteMapping
+    public R<String> delete(String ids) {
         log.info("删除菜品，id: {}", ids);
-        // 条件构造器
-        LambdaUpdateWrapper<Dish> wrapper = new LambdaUpdateWrapper<>();
-        // 设置条件 (where id = id)
-        wrapper.eq(Dish::getId, ids);
-        // 设置删除字段为1 (set is_deleted = 1)
-        wrapper.set(Dish::getIsDeleted, 1);
-        // 执行修改
-        dishService.update(wrapper);
+        // 将ids以逗号分隔
+        String[] idArray = ids.split(",");
+        // 遍历idArray，将每一个id的菜品状态修改为status
+        for (String id : idArray) {
+            // 条件构造器
+            LambdaUpdateWrapper<Dish> wrapper = new LambdaUpdateWrapper<>();
+            // 设置条件 (where id = id)
+            wrapper.eq(Dish::getId, id);
+            // 修改菜品状态为停售
+            wrapper.set(Dish::getStatus, 0);
+            // 设置删除字段为1 (set is_deleted = 1)
+            wrapper.set(Dish::getIsDeleted, 1);  // 由于Dish实体类的isDeleted使用了@TableLogic进行逻辑删除，这里还可以直接调用dishService的removeById方法，会自动将is_deleted字段设置为1
+            // 执行修改
+            dishService.update(wrapper);
+        }
 
         return R.success("删除成功");
     }
