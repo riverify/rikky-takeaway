@@ -210,4 +210,25 @@ public class DishController {
         return R.success("删除成功");
     }
 
+    /**
+     * <h2>根据条件查询相应的菜品数据<h2/>
+     * <p>如：前端传入的是CategoryId(Dish中的一个参数，为分类id)，则查询该分类下的所有菜品。主要应对套餐添加时的添加菜品功能。
+     *
+     * @param dish 菜品实体
+     * @return 菜品列表
+     */
+    @GetMapping("/list")
+    public R<List<Dish>> list(Dish dish) {
+        // 构造查询条件
+        LambdaQueryWrapper<Dish> queryWrapper = new LambdaQueryWrapper<>();
+        // where status = 1 and category_id = ?  由于Dish的isDeleted字段使用了@TableLogic注解，所以这里不需要设置is_deleted = 0，MP会自动将is_deleted = 0的条件加入到查询条件中
+        queryWrapper.eq(dish.getCategoryId() != null, Dish::getCategoryId, dish.getCategoryId()); // dish.getCategoryId() != null 为true则执行后面的语句
+        // 添加排序条件 where category_id = ? order by sort asc , update_time desc
+        queryWrapper.orderByAsc(Dish::getSort).orderByDesc(Dish::getUpdateTime);
+        // 查询
+        List<Dish> list = dishService.list(queryWrapper);
+
+        return R.success(list);
+    }
+
 }

@@ -2,6 +2,7 @@ package com.fubukiss.rikky.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -64,5 +65,6 @@ public class Setmeal implements Serializable {
 
 
     //是否删除
+    @TableLogic(value = "0", delval = "1")     // 逻辑删除注解，value为未删除的值，delval为删除的值
     private Integer isDeleted;
 }

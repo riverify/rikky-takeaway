@@ -98,7 +98,7 @@ public class CategoryController {
 
 
     /**
-     * <h2>获取分类列表<h2/>
+     * <h2>根据type获取菜品分类列表或套餐分类列表<h2/>
      *
      * @param category 实体类，用于接收前端传递的参数。在前端需要获取分类信息列表以添加菜品时，实体类内的参数为type = 1（1为菜品，2为套餐）。
      *                 同时本方法也能有其他类似功能，返回为List。由于前段传入的不是json数据，所以不需要使用@RequestBody注解。
