@@ -207,7 +207,7 @@ public class DishController {
         }
 
         return R.success("删除成功");
-    }
+    }   // fixme:没有做到同步删除菜品和菜品口味的关联表
 
     /**
      * <h2>根据条件查询相应的菜品数据<h2/>

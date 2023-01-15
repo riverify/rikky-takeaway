@@ -116,4 +116,29 @@ public class SetmealController {
         return R.success(setmealDtoPage);
     }
 
+
+    /**
+     * <h2>删除套餐<h2/>
+     * <p>相比较在{@link DishController}中的delete方法，这里我们使用List来接收前端传入的ids，并且会先判断是否为在售状态，如果是在售状态，则不能删除。
+     * <p>相比较在{@link DishController}中的delete方法，我将这里的逻辑写在service下，不少人肯定会疑惑到底应该把业务逻辑写到controller
+     * 还是service，其实这个问题没有绝对的标准，只要你能够清晰的知道你的业务逻辑在哪里，就可以了，我个人的习惯是将业务逻辑写在service下，因为
+     * service是业务层，而controller是控制层，controller只负责接收前端的请求，然后将请求转发给service，service处理完业务逻辑后，将结果
+     * 返回给controller，controller再将结果返回给前端，这样的逻辑清晰明了，不会混乱。但是将业务逻辑写在controller下，这样也是可以的，什么
+     * service，不就是一个服务么，短信服务、API服务、售票服务，总是有一个特定领域才能叫服务，那他表示的就是一类有相同属性（数据、对象等）的
+     * 操作集。所以我说极端点说，都可以写在controller里面，因为这样就可以满足了业务需求了。直到你发现某些代码在多个地方用到，且都是相关某个特定
+     * 数据或功能的，那你就有了service的概念，那相应的功能代码就可以提炼到service里了。那多做几次，那就基本有感觉，上面的判断在设计阶段，我们
+     * 就可以预先有一定的判断了，这就是放service层还是controller层的基础逻辑。
+     * <p>项目后期，我会试图更加规范，将业务逻辑写在service下，这样会更加清晰明了，也更加符合面向对象的思想。
+     *
+     * @param ids 前端传入的ids，可以为多个，多个之间是以逗号分隔的，我们用List来接收，@RequestParam注解是用来接收前端传入的参数
+     * @return 返回删除结果
+     */
+    @DeleteMapping
+    public R<String> delete(@RequestParam List<Long> ids) {
+        log.info("被删除套餐ids:{}", ids);
+
+
+        return null;
+    }
+
 }
