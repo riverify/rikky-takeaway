@@ -1,15 +1,13 @@
 package com.fubukiss.rikky.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fubukiss.rikky.common.R;
 import com.fubukiss.rikky.dto.SetmealDto;
 import com.fubukiss.rikky.service.SetmealDishService;
 import com.fubukiss.rikky.service.SetmealService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>Project: rikky-takeaway - SetmealController 套餐控制器
@@ -50,6 +48,23 @@ public class SetmealController {
         setmealService.saveWithDishes(setmealDto); // 该方法为自定义方法，详见SetmealServiceImpl
 
         return R.success("添加套餐成功");
+    }
+
+
+    /**
+     * <h2>分页查询套餐<h2/>
+     * <p>其中菜品的图片由{@link CommonController}提供下载到页面的功能。
+     *
+     * @param page     前端传入的分页参数，一次性传入当前页码
+     * @param pageSize 前端传入的分页参数，一次性传入每页显示的条数
+     * @param name     查询条件，如果name为空，则查询所有套餐
+     * @return Page对象，mybatis-plus提供的分页对象，包含了分页的所有信息
+     */
+    @GetMapping("/page")
+    public R<Page> page(int page, int pageSize, String name) {
+        // TODO:
+
+        return null;
     }
 
 }
