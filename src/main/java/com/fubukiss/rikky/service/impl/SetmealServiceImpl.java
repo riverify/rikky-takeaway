@@ -2,6 +2,7 @@ package com.fubukiss.rikky.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.fubukiss.rikky.common.CustomException;
 import com.fubukiss.rikky.dto.SetmealDto;
 import com.fubukiss.rikky.entity.Setmeal;
 import com.fubukiss.rikky.entity.SetmealDish;
@@ -66,15 +67,18 @@ public class SetmealServiceImpl extends ServiceImpl<SetmealMapper, Setmeal> impl
     @Transactional
     public void removeWithDishes(List<Long> ids) {
         // 查询套餐是否在售卖 select count(1) from setmeal where id in (1, 2, 3) and status = 1
-        LambdaQueryWrapper<Setmeal> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.in(Setmeal::getId, ids).eq(Setmeal::getStatus, 1);
-        int count = this.count(queryWrapper);   //　count()方法为MyBatis-Plus提供的查询方法，返回查询结果的数量
-        if (count > 0) {
-            throw new RuntimeException("套餐正在售卖，不能删除");  //
-        }
-        // todo: 删除套餐和菜品的关联关系，睡觉了
+        LambdaQueryWrapper<Setmeal> setmealQueryWrapper = new LambdaQueryWrapper<>();
+        setmealQueryWrapper.in(Setmeal::getId, ids).eq(Setmeal::getStatus, 1);
+        int count = this.count(setmealQueryWrapper);   //　count()方法为MyBatis-Plus提供的查询方法，返回查询结果的数量
         // 如果不能删除，抛出异常
-        // 如果能删除，先删除套餐表中的数据
-        // 删除关系表中的数据
+        if (count > 0) {
+            throw new CustomException("套餐正在售卖，不能删除");  // 自定义异常
+        }
+        // 如果能删除，先删除套餐表中的数据  setmeal的id为主键，所以可以直接删除
+        this.removeByIds(ids);                  // removeByIds()方法为MyBatis-Plus提供的删除方法，根据id集合删除数据
+        // 删除关系表中的数据  setmeal_dish的setmeal_id不是主键，所以需要先查询出setmeal_id对应的id集合，再根据id集合删除数据
+        LambdaQueryWrapper<SetmealDish> setmealDishLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        setmealDishLambdaQueryWrapper.in(SetmealDish::getSetmealId, ids);   // where setmeal_id in (1, 2, 3)
+        setmealDishService.remove(setmealDishLambdaQueryWrapper);   // remove()方法为MyBatis-Plus提供的删除方法，根据条件删除数据
     }
 }

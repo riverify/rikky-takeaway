@@ -136,9 +136,9 @@ public class SetmealController {
     @DeleteMapping
     public R<String> delete(@RequestParam List<Long> ids) {
         log.info("被删除套餐ids:{}", ids);
+        setmealService.removeWithDishes(ids);
 
-
-        return null;
+        return R.success("删除套餐成功");
     }
 
 }
