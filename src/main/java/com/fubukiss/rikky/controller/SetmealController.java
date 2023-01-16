@@ -174,12 +174,18 @@ public class SetmealController {
 
 
     /**
-     * @param setmealDto
-     * @return
+     * <h2>修改保存套餐<h2/>
+     *
+     * @param setmealDto dto: data transfer object，主要用于多表查询时，将查询结果封装成一个对象，方便前端使用，如在本项目的套餐保存中，
+     *                   前端需要传入套餐的基本信息，以及套餐下捆绑菜品的信息，而套餐(setmeal)和套餐菜品(setmealDish)是两张表，在后端拥有两个实体类，
+     *                   所以需要将这两个实体类封装成一个对象。@RequestBody注解用于将前端传入的json数据转换成对象
+     * @return 通用返回
      */
     @PutMapping
     public R<String> put(@RequestBody SetmealDto setmealDto) {
-        log.info("");
+        log.info("修改套餐:{}", setmealDto);
+        // 保存套餐
+        setmealService.updateWithDishes(setmealDto);
 
         return null;
     }

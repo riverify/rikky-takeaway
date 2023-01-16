@@ -44,4 +44,11 @@ public interface SetmealService extends IService<Setmeal> {
      * @param id 套餐id
      */
     SetmealDto getByIdWithDishes(Long id);
+
+    /**
+     * 更新套餐信息，同时更新套餐和菜品的关联关系
+     *
+     * @param setmealDto 套餐数据传输对象
+     */
+    void updateWithDishes(SetmealDto setmealDto);
 }

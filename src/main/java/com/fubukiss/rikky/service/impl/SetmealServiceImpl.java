@@ -125,4 +125,35 @@ public class SetmealServiceImpl extends ServiceImpl<SetmealMapper, Setmeal> impl
         // 返回setmealDto对象
         return setmealDto;
     }
+
+
+    /**
+     * 更新套餐信息，同时更新套餐和菜品的关联关系
+     * <p>@Transactional注解表示该方法需要事务支持，如果该方法抛出异常，则事务回滚。
+     * <p>更新关联关系的业务逻辑：对于关联关系，先删除原有关联关系，再添加新的关联关系，这样可以保证关联关系的唯一性。
+     *
+     * @param setmealDto 套餐数据传输对象
+     */
+    @Transactional
+    @Override
+    public void updateWithDishes(SetmealDto setmealDto) {
+        // 更新套餐基本信息
+        this.updateById(setmealDto);
+        // 获取套餐的id
+        Long setmealId = setmealDto.getId();
+        // 修改套餐和菜品的关联关系
+        //　1.删除原有关联关系
+        setmealDishService.remove(new LambdaQueryWrapper<SetmealDish>().eq(SetmealDish::getSetmealId, setmealId));   // remove()方法为MyBatis-Plus提供的删除方法，根据条件删除数据
+        // 2.添加新的关联关系 即将setmeal的id字段赋值给setmealDish的setmealId字段
+        // 获取新的关联关系
+        List<SetmealDish> setmealDishes = setmealDto.getSetmealDishes(); // 该setmealDishes中的setmealId字段为null
+        // 使用stream流将setmealDishes中的setmealId字段赋值为setmealDtoId
+        setmealDishes = setmealDishes.stream().peek(item -> {
+            item.setSetmealId(setmealId);   // 将套餐id赋值给setmealDish的setmealId字段
+        }).collect(Collectors.toList());    // 将stream流转换为list集合
+
+        // 保存新的关联关系
+        setmealDishService.saveBatch(setmealDishes);  // saveBatch()方法为MyBatis-Plus提供的批量保存方法，保存的是一个集合
+
+    }
 }
