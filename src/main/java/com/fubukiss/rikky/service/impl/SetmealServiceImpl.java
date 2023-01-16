@@ -1,6 +1,7 @@
 package com.fubukiss.rikky.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fubukiss.rikky.common.CustomException;
 import com.fubukiss.rikky.dto.SetmealDto;
@@ -10,6 +11,7 @@ import com.fubukiss.rikky.mapper.SetmealMapper;
 import com.fubukiss.rikky.service.SetmealDishService;
 import com.fubukiss.rikky.service.SetmealService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -80,5 +82,47 @@ public class SetmealServiceImpl extends ServiceImpl<SetmealMapper, Setmeal> impl
         LambdaQueryWrapper<SetmealDish> setmealDishLambdaQueryWrapper = new LambdaQueryWrapper<>();
         setmealDishLambdaQueryWrapper.in(SetmealDish::getSetmealId, ids);   // where setmeal_id in (1, 2, 3)
         setmealDishService.remove(setmealDishLambdaQueryWrapper);   // remove()方法为MyBatis-Plus提供的删除方法，根据条件删除数据
+    }
+
+
+    /**
+     * 修改套餐状态，如果是在售状态则修改为下架，如果是下架状态则修改为在售
+     *
+     * @param ids    套餐id列表
+     * @param status 需要修改的状态
+     */
+    @Override
+    public void changeStatus(List<Long> ids, Integer status) {
+        for (Long id : ids) {
+            LambdaUpdateWrapper<Setmeal> updateWrapper = new LambdaUpdateWrapper<>();   // 条件构造器
+            updateWrapper.eq(Setmeal::getId, id);   // where id = ?
+            updateWrapper.set(Setmeal::getStatus, status);   // set status = ?
+            this.update(updateWrapper);  // update()方法为MyBatis-Plus提供的更新方法，根据条件更新数据
+        }
+    }
+
+
+    /**
+     * 根据id获取某套餐的基本信息和套餐所含菜品
+     *
+     * @param id 套餐id
+     */
+    @Override
+    public SetmealDto getByIdWithDishes(Long id) {
+        // 获取套餐基本信息　不含菜品信息
+        Setmeal setmeal = this.getById(id);
+        // 创建setmealDto对象，用于封装套餐基本信息和套餐所含菜品
+        SetmealDto setmealDto = new SetmealDto();
+        // 将setmeal的基本信息封装到setmealDto对象中
+        BeanUtils.copyProperties(setmeal, setmealDto);
+        // 获取套餐所含菜品
+        LambdaQueryWrapper<SetmealDish> setmealDishQueryWrapper = new LambdaQueryWrapper<>();
+        setmealDishQueryWrapper.eq(SetmealDish::getSetmealId, id);  // where setmeal_id = ?
+        List<SetmealDish> dishes = setmealDishService.list(setmealDishQueryWrapper);  // list()方法为MyBatis-Plus提供的查询方法，根据条件查询数据
+        // 将套餐所含菜品封装到setmealDto对象中
+        setmealDto.setSetmealDishes(dishes);
+
+        // 返回setmealDto对象
+        return setmealDto;
     }
 }

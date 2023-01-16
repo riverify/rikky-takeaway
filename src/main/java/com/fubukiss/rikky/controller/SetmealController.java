@@ -141,4 +141,46 @@ public class SetmealController {
         return R.success("删除套餐成功");
     }
 
+
+    /**
+     * <h2>修改套餐状态<h2/>
+     *
+     * @param ids    需要被修改的套餐的id，可以是多个，多个之间是以逗号分隔的，我们用List来接收
+     * @param status 需要被修改的状态
+     * @return 返回修改结果
+     */
+    @PostMapping("/status/{status}")
+    public R<String> changeStatus(@RequestParam List<Long> ids, @PathVariable Integer status) {
+        log.info("需要修改状态的套餐ids:{}, 需要修改的状态:{}", ids, status);
+        setmealService.changeStatus(ids, status);   // 修改状态
+
+        return R.success("修改套餐状态成功");
+    }
+
+
+    /**
+     * <h2>根据id获取某套餐的基本信息和套餐所含菜品<h2/>
+     *
+     * @param id 套餐id
+     * @return 返回套餐传输对象dto，包含套餐基本信息和套餐所含菜品信息
+     */
+    @GetMapping("/{id}")
+    public R<SetmealDto> get(@PathVariable Long id) {
+        log.info("获取套餐id:{}", id);
+        SetmealDto setmealDto = setmealService.getByIdWithDishes(id);
+
+        return R.success(setmealDto);
+    }
+
+
+    /**
+     * @param setmealDto
+     * @return
+     */
+    @PutMapping
+    public R<String> put(@RequestBody SetmealDto setmealDto) {
+        log.info("");
+
+        return null;
+    }
 }
