@@ -21,6 +21,7 @@
 </head>
 <body>
 <div id="login" v-loading="loading">
+    <!-- TODO: 整个登陆系统仍有改进空间 -->
     <div class="divHead">登录</div>
     <div class="divContainer">
         <el-input placeholder=" 请输入邮箱" v-model="form.phone" maxlength='50'/>
@@ -66,15 +67,15 @@
         },
         methods: {
             getCode() {
-                // 提示“请稍后”
-                this.$toast.loading({
-                    message: '请稍后...',
-                    forbidClick: true,  // 禁止背景点击
-                    duration: 2000 // 延迟关闭
-                });
                 this.form.code = ''
                 const regex = /([a-z]|[0-9])+((\.|\-|_)?([a-z]|[0-9])+)*@[a-z]+(\-?[a-z]+)*(\.[a-z]+(\-?[a-z]+)*)+/;
                 if (regex.test(this.form.phone)) {
+                    // 当验证通过 提示“请稍后”
+                    this.$toast.loading({
+                        message: '请稍后...',
+                        forbidClick: true,  // 禁止背景点击
+                        duration: 2000 // 延迟关闭
+                    });
                     this.msgFlag = false
                     //this.form.code = (Math.random()*1000000).toFixed(0)
                     sendMsgApi({email: this.form.phone}).then((res) => {
