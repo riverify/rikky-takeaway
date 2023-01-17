@@ -23,14 +23,14 @@
 <div id="login" v-loading="loading">
     <div class="divHead">登录</div>
     <div class="divContainer">
-        <el-input placeholder=" 请输入手机号码" v-model="form.phone" maxlength='20'/>
+        <el-input placeholder=" 请输入邮箱" v-model="form.phone" maxlength='50'/>
         </el-input>
         <div class="divSplit"></div>
-        <el-input placeholder=" 请输入验证码" v-model="form.code" maxlength='20'/>
+        <el-input placeholder=" 请输入验证码" v-model="form.code" maxlength='30'/>
         </el-input>
         <span @click='getCode'>获取验证码</span>
     </div>
-    <div class="divMsg" v-if="msgFlag">手机号输入不正确，请重新输入</div>
+    <div class="divMsg" v-if="msgFlag">邮箱格式不正确，请重新输入</div>
     <el-button type="primary" :class="{btnSubmit:1===1,btnNoPhone:!form.phone,btnPhone:form.phone}" @click="btnLogin">
         登录
     </el-button>
@@ -66,11 +66,36 @@
         },
         methods: {
             getCode() {
+                // 提示“请稍后”
+                this.$toast.loading({
+                    message: '请稍后...',
+                    forbidClick: true,  // 禁止背景点击
+                    duration: 2000 // 延迟关闭
+                });
                 this.form.code = ''
-                const regex = /^(13[0-9]{9})|(15[0-9]{9})|(17[0-9]{9})|(18[0-9]{9})|(19[0-9]{9})$/;
+                const regex = /([a-z]|[0-9])+((\.|\-|_)?([a-z]|[0-9])+)*@[a-z]+(\-?[a-z]+)*(\.[a-z]+(\-?[a-z]+)*)+/;
                 if (regex.test(this.form.phone)) {
                     this.msgFlag = false
-                    this.form.code = (Math.random() * 1000000).toFixed(0)
+                    //this.form.code = (Math.random()*1000000).toFixed(0)
+                    sendMsgApi({email: this.form.phone}).then((res) => {
+                        if (res.code === 1) {
+                            this.$message(
+                                {
+                                    message: "验证码已经发送，请注意查收垃圾信箱",
+                                    type: 'success'
+                                }
+                            )
+                        } else {
+                            this.$message(
+                                {
+                                    message: "验证码发送失败,请输入正确邮箱",
+                                    type: 'failed'
+                                }
+                            )
+                        }
+                    });
+
+
                 } else {
                     this.msgFlag = true
                 }

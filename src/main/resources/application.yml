@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8080  # default port
 spring:
   application:
     name: rikky_takeaway  # 应用名称
@@ -8,9 +8,24 @@ spring:
       driver-class-name: com.mysql.cj.jdbc.Driver
       # 本人将使用服务器启动项填写以下敏感信息 #
       # IDEA->Run->Edit Configurations->Environment Variables->添加以下变量 #
-      url: # 出于安全原因，弃用数据库url，请自行配置
-      username: # 出于安全原因，删除用户名，请自行配置
-      password: # 密码由于安全原因，已经删除并修改，本地测试时请自行添加
+      url: # 请自行配置数据库url
+      username: # 请自行配置数据库username
+      password: # 本地测试时请自行添加password
+  # 邮箱验证配置信息
+  mail:
+    host: smtp.qq.com
+    username: # 请自行配置邮箱地址
+    password: mwluvwkrszbldgbh # 请自行配置邮箱smtp授权码 具体请看本项目根目录下的README.md
+    port: 587
+    default-encoding: UTF-8
+    timeout: 10
+    properties:
+      mail:
+        smtp:
+          socketFactoryClass: javax.net.ssl.SSLSocketFactory
+        # 开启debug以后，邮件发送过程的日志会在控制台上打印出来
+        debug: true
+
 mybatis-plus:
   configuration:
     # 在映射实体或者属性时，将数据库中表名和字段名中的下划线去掉，按照驼峰命名法映射
@@ -19,6 +34,7 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: ASSIGN_ID
+
 
 rikky:
   linux-path: /home/river/code/IdeaProjects/rikky-takeaway/img/  # 本地测试时，文件存储路径
