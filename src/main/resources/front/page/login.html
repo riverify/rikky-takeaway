@@ -24,7 +24,7 @@
     <!-- TODO: 整个登陆系统仍有改进空间，预计加入密码功能 -->
     <div class="divHead">登录</div>
     <div class="divContainer">
-        <el-input placeholder=" 请输入邮箱" v-model="form.phone" maxlength='50'/>
+        <el-input placeholder=" 请输入邮箱" v-model="form.email" maxlength='50'/>
         </el-input>
         <div class="divSplit"></div>
         <el-input placeholder=" 请输入验证码" v-model="form.code" maxlength='30'/>
@@ -32,7 +32,7 @@
         <span @click='getCode'>获取验证码</span>
     </div>
     <div class="divMsg" v-if="msgFlag">邮箱格式不正确，请重新输入</div>
-    <el-button type="primary" :class="{btnSubmit:1===1,btnNoPhone:!form.phone,btnPhone:form.phone}" @click="btnLogin">
+    <el-button type="primary" :class="{btnSubmit:1===1,btnNoEmail:!form.email,btnEmail:form.email}" @click="btnLogin">
         登录
     </el-button>
 </div>
@@ -53,7 +53,7 @@
         data() {
             return {
                 form: {
-                    phone: '',
+                    email: '',
                     code: ''
                 },
                 msgFlag: false,
@@ -69,7 +69,7 @@
             getCode() {
                 this.form.code = ''
                 const regex = /([a-z]|[0-9])+((\.|\-|_)?([a-z]|[0-9])+)*@[a-z]+(\-?[a-z]+)*(\.[a-z]+(\-?[a-z]+)*)+/;
-                if (regex.test(this.form.phone)) {
+                if (regex.test(this.form.email)) {
                     // 当验证通过 提示“请稍后”
                     this.$toast.loading({
                         message: '请稍后...',
@@ -78,7 +78,7 @@
                     });
                     this.msgFlag = false
                     //this.form.code = (Math.random()*1000000).toFixed(0)
-                    sendMsgApi({email: this.form.phone}).then((res) => {
+                    sendMsgApi({email: this.form.email}).then((res) => {
                         if (res.code === 1) {
                             this.$message(
                                 {
@@ -102,12 +102,12 @@
                 }
             },
             async btnLogin() {
-                if (this.form.phone && this.form.code) {
+                if (this.form.email && this.form.code) {
                     this.loading = true
-                    const res = await loginApi({phone: this.form.phone})
+                    const res = await loginApi({email: this.form.email, code: this.form.code})
                     this.loading = false
                     if (res.code === 1) {
-                        sessionStorage.setItem("userPhone", this.form.phone)
+                        sessionStorage.setItem("userEmail", this.form.email)
                         window.requestAnimationFrame(() => {
                             window.location.href = '/front/index.html'
                         })
@@ -115,7 +115,7 @@
                         this.$notify({type: 'warning', message: res.msg});
                     }
                 } else {
-                    this.$notify({type: 'warning', message: '请输入手机号码'});
+                    this.$notify({type: 'warning', message: '请输入邮箱和验证码'});
                 }
             }
         }

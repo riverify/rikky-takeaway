@@ -1,5 +1,6 @@
 package com.fubukiss.rikky.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fubukiss.rikky.common.CustomException;
 import com.fubukiss.rikky.entity.User;
@@ -77,6 +78,43 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         } catch (MailException e) {
             e.printStackTrace();
             throw new CustomException("致命错误！");
+        }
+
+
+    }
+
+
+    /**
+     * 验证码登陆账号，如果是新用户，则自动注册
+     *
+     * @param email   邮箱地址
+     * @param code    验证码
+     * @param session 会话
+     */
+    @Override
+    public User loginByVerificationCode(String email, String code, HttpSession session) {
+        // 获取session中的验证码
+        String verificationCodeInSession = (String) session.getAttribute("verificationCode");
+        // 验证码是否正确
+        if (verificationCodeInSession != null && verificationCodeInSession.equals(code)) {
+            // 验证码正确
+            // 查询用户是否存在
+            LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(User::getEmail, email);
+            User user = this.getOne(queryWrapper);// 查询用户
+            // 用户不存在，自动注册
+            if (user == null) {
+                user = new User();
+                user.setEmail(email);
+                user.setStatus(1);      // 设置用户状态为正常
+                this.save(user);
+            }
+            // 将用户信息存入session
+            session.setAttribute("user", user.getId());
+            return user;
+        } else {
+            // 验证码错误
+            throw new CustomException("验证码错误！");
         }
     }
 }

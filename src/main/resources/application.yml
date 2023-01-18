@@ -18,7 +18,7 @@ spring:
     password: mwluvwkrszbldgbh # 请自行配置邮箱smtp授权码 具体请看本项目根目录下的README.md
     port: 587
     default-encoding: UTF-8
-    timeout: 10
+    timeout: 10 # 验证码有效时间 单位：分钟
     properties:
       mail:
         smtp:

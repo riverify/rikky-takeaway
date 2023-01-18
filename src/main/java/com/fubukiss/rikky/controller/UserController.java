@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 /**
  * FileName: UserController 用户控制器
@@ -49,6 +50,30 @@ public class UserController {
             return R.success("发送成功，请及时查看邮箱");
         }
         return R.error("发送失败");
+    }
+
+
+    /**
+     * <h2>验证码登陆账号<h2/>
+     * <p>如果为新用户，则自动注册
+     *
+     * @param map     前端传来的用户实体类，主要是邮箱地址和验证码
+     * @param session 会话
+     * @return 返回User实体类，以在浏览器保存该信息
+     */
+    @PostMapping("/login")
+    public R<User> login(@RequestBody Map map, HttpSession session) {
+        log.info("用户登陆，用户信息：{}，session:{}", map.toString(), session);
+        // 从map里获取邮箱地址和验证码
+        String email = (String) map.get("email");
+        String code = (String) map.get("code");
+        // 判断邮箱地址和验证码是否为空
+        if (!StringUtils.isEmpty(email) && !StringUtils.isEmpty(code)) {
+            // 验证码登陆
+            User user = userService.loginByVerificationCode(email, code, session);// 通过工具类发送验证码，login方法在UserService接口中
+            return R.success(user);
+        }
+        return R.error("登陆失败，请检查邮箱地址和验证码");
     }
 
 }
