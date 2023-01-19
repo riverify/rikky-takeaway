@@ -6,6 +6,7 @@ import com.fubukiss.rikky.common.R;
 import com.fubukiss.rikky.dto.SetmealDto;
 import com.fubukiss.rikky.entity.Category;
 import com.fubukiss.rikky.entity.Setmeal;
+import com.fubukiss.rikky.entity.SetmealDish;
 import com.fubukiss.rikky.service.CategoryService;
 import com.fubukiss.rikky.service.SetmealDishService;
 import com.fubukiss.rikky.service.SetmealService;
@@ -188,5 +189,54 @@ public class SetmealController {
         setmealService.updateWithDishes(setmealDto);
 
         return null;
+    }
+
+
+    /**
+     * <h2>前台查询套餐和套餐的内容<h2/>
+     *
+     * @param setmeal 前端传入的查询条件
+     * @return 返回查询结果
+     */
+    @GetMapping("/list")
+    public R<List<SetmealDto>> list(Setmeal setmeal) {
+        log.info("前台查询套餐:{}", setmeal);
+        // 创建构造器
+        LambdaQueryWrapper<Setmeal> queryWrapper = new LambdaQueryWrapper<>();
+        // 设置查询条件 where category_id = ? and status = 1 order by update_time desc
+        queryWrapper.eq(setmeal.getCategoryId() != null, Setmeal::getCategoryId, setmeal.getCategoryId())
+                .eq(Setmeal::getStatus, 1)
+                .orderByDesc(Setmeal::getUpdateTime);
+        // 查询套餐基本信息
+        List<Setmeal> setmealList = setmealService.list(queryWrapper);
+        // 查询套餐所含菜品信息
+        List<SetmealDto> setmealDtoList = setmealList.stream().map(item -> {
+            // 创建套餐dto 包含套餐基本信息和套餐所含菜品信息
+            SetmealDto setmealDto = new SetmealDto();
+            // 设置套餐基本信息
+            BeanUtils.copyProperties(item, setmealDto);
+            // 查询套餐所含菜品信息
+            LambdaQueryWrapper<SetmealDish> setmealDishQueryWrapper = new LambdaQueryWrapper<>(); // select * from setmeal_dish
+            setmealDishQueryWrapper.eq(SetmealDish::getSetmealId, item.getId()); // where setmeal_id = ?
+            // 查询套餐所含菜品信息
+            List<SetmealDish> setmealDishList = setmealDishService.list(setmealDishQueryWrapper);
+            // 加入套餐dto
+            setmealDto.setSetmealDishes(setmealDishList);
+
+            return setmealDto;
+        }).collect(Collectors.toList());
+
+        return R.success(setmealDtoList);
+    }
+
+
+    // todo: unfinished checking setmeal details
+    @GetMapping("/dish/{id}")
+    public R<SetmealDto> dish(@PathVariable Long id) {
+        log.info("前台查询套餐:{}", id);
+        // 查询套餐基本信息
+        SetmealDto dishes = setmealService.getByIdWithDishes(id);
+
+        return R.success(dishes);
     }
 }
