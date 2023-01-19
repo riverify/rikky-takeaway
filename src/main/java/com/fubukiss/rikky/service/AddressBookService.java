@@ -12,4 +12,5 @@ import com.fubukiss.rikky.entity.AddressBook;
  * @since JDK8
  */
 public interface AddressBookService extends IService<AddressBook> {
+
 }

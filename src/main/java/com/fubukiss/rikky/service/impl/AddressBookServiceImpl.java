@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fubukiss.rikky.entity.AddressBook;
 import com.fubukiss.rikky.mapper.AddressBookMapper;
 import com.fubukiss.rikky.service.AddressBookService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,5 +16,7 @@ import org.springframework.stereotype.Service;
  * @since JDK8
  */
 @Service
+@Slf4j
 public class AddressBookServiceImpl extends ServiceImpl<AddressBookMapper, AddressBook> implements AddressBookService {
+
 }

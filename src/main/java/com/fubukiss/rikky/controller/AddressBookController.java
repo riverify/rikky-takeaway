@@ -24,7 +24,10 @@ public class AddressBookController {
     private AddressBookService addressBookService;
 
     /**
-     * 新增
+     * <h2>新增地址<h2/>
+     *
+     * @param addressBook 地址簿，@RequestBody注解表示接收json格式的数据
+     * @return {@link R}
      */
     @PostMapping
     public R<AddressBook> save(@RequestBody AddressBook addressBook) {
@@ -35,7 +38,10 @@ public class AddressBookController {
     }
 
     /**
-     * 设置默认地址
+     * <h2>设置默认地址<h2/>
+     *
+     * @param addressBook 地址簿，@RequestBody注解表示接收json格式的数据
+     * @return {@link R}
      */
     @PutMapping("default")
     public R<AddressBook> setDefault(@RequestBody AddressBook addressBook) {
@@ -53,20 +59,25 @@ public class AddressBookController {
     }
 
     /**
-     * 根据id查询地址
+     * <h2>根据id查询地址<h2/>
+     *
+     * @param id 地址id，@PathVariable注解表示从url中?之前的参数中获取
+     * @return {@link R}
      */
     @GetMapping("/{id}")
     public R get(@PathVariable Long id) {
         AddressBook addressBook = addressBookService.getById(id);
         if (addressBook != null) {
-            return R.success(addressBook);
+            return R.success(addressBook);  // fixme: 回传到前端的数据中，label字段没法对应到前端的label的选中状态
         } else {
             return R.error("没有找到该对象");
         }
     }
 
     /**
-     * 查询默认地址
+     * <h2>查询默认地址<h2/>
+     *
+     * @return {@link R}
      */
     @GetMapping("default")
     public R<AddressBook> getDefault() {
@@ -85,7 +96,10 @@ public class AddressBookController {
     }
 
     /**
-     * 查询指定用户的全部地址
+     * <h2>查询指定用户的全部地址<h2/>
+     *
+     * @param addressBook 地址簿，@RequestBody注解表示接收json格式的数据
+     * @return {@link R}
      */
     @GetMapping("/list")
     public R<List<AddressBook>> list(AddressBook addressBook) {
@@ -100,4 +114,36 @@ public class AddressBookController {
         //SQL:select * from address_book where user_id = ? order by update_time desc
         return R.success(addressBookService.list(queryWrapper));
     }
+
+
+    /**
+     * <h2>修改地址本<h2/>
+     *
+     * @param addressBook 地址簿，@RequestBody注解表示接收json格式的数据
+     * @return {@link R}
+     */
+    @PutMapping
+    public R<AddressBook> update(@RequestBody AddressBook addressBook) {
+        log.info("修改后的addressBook:{}", addressBook);
+        // SQL: update address_book set name = ?, phone = ?, address = ?, is_default = ?, update_time = ? where id = ?
+        addressBookService.updateById(addressBook);
+
+        return R.success(addressBook);
+    }
+
+
+    /**
+     * <h2>根据id删除地址本<h2/>
+     *
+     * @param ids 地址id
+     * @return {@link R}
+     */
+    @DeleteMapping
+    public R<String> delete(Long ids) {
+        log.info("删除的id:{}", ids);
+        addressBookService.removeById(ids);
+
+        return R.success("删除成功");
+    }
+
 }
