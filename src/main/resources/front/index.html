@@ -142,7 +142,15 @@
                     <div class="divSubtract">
                         <img src="./images/subtract.png" @click="cartNumberSubtract(item)"/>
                     </div>
-                    <div class="divDishNum">{{item.number}}</div>
+                    <div style="font-size: 15rem;
+                                font-family: PingFangSC, PingFangSC-Regular;
+                                font-weight: 500;
+                                text-align: center;
+                                color: #333333;
+                                line-height: 36rem;
+                                letter-spacing: 0;
+                                width: auto;">{{item.number}}
+                    </div>
                     <div class="divAdd">
                         <img src="./images/add.png" @click="cartNumAdd(item)"/>
                     </div>
@@ -222,7 +230,8 @@
                 <div class="divAdd" v-if="setMealDialog.item.number">
                     <img src="./images/add.png" @click="addCart(setMealDialog.item)"/>
                 </div>
-                <div class="addCart" @click="addCart(setMealDialog.item)" v-if="!setMealDialog.item.number">加入购物车</div>
+                <div class="addCart" @click="addCart(setMealDialog.item)" v-if="!setMealDialog.item.number">加入购物车
+                </div>
             </div>
         </div>
         <div class="detailsDialogClose" @click="setMealDialog.show = false">
