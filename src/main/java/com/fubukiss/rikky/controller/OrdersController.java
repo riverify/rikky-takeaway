@@ -1,14 +1,12 @@
 package com.fubukiss.rikky.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fubukiss.rikky.common.R;
 import com.fubukiss.rikky.entity.Orders;
 import com.fubukiss.rikky.service.OrdersService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * FileName: OrdersController
@@ -39,6 +37,15 @@ public class OrdersController {
         log.info("submit order: {}", orders);
         ordersService.submit(orders);
         return R.success("订单提交成功");
+    }
+
+
+    @GetMapping("/userPage")
+    public R<Page> page(int page, int pageSize) {
+        // 获取用户订单分页
+        Page<Orders> userPage = ordersService.getUserPage(page, pageSize);
+
+        return R.success(userPage);
     }
 
 

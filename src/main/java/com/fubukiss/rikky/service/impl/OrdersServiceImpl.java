@@ -2,6 +2,7 @@ package com.fubukiss.rikky.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fubukiss.rikky.common.BaseContext;
 import com.fubukiss.rikky.common.CustomException;
@@ -123,4 +124,24 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
         // 清空购物车数据
         shoppingCartService.remove(cartQueryWrapper);
     }
+
+
+    /**
+     * 获取用户订单分页
+     *
+     * @param page     页码
+     * @param pageSize 每页数量
+     * @return 分页数据
+     */
+    public Page<Orders> getUserPage(int page, int pageSize) {
+        // 构造分页对象
+        Page<Orders> ordersPage = new Page<>(page, pageSize);
+        // 构造查询条件
+        LambdaQueryWrapper<Orders> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Orders::getUserId, BaseContext.getCurrentId());
+        queryWrapper.orderByDesc(Orders::getOrderTime);
+        // 查询数据
+        return this.page(ordersPage, queryWrapper);
+    }
+
 }
