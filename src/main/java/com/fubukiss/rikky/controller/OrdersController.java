@@ -2,6 +2,7 @@ package com.fubukiss.rikky.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fubukiss.rikky.common.R;
+import com.fubukiss.rikky.dto.OrdersDto;
 import com.fubukiss.rikky.entity.Orders;
 import com.fubukiss.rikky.service.OrdersService;
 import lombok.extern.slf4j.Slf4j;
@@ -40,10 +41,17 @@ public class OrdersController {
     }
 
 
+    /**
+     * <h2>分页查询用户的订单详情<h2/>
+     *
+     * @param page     页码
+     * @param pageSize 每页数量
+     * @return {@link R}
+     */
     @GetMapping("/userPage")
     public R<Page> page(int page, int pageSize) {
         // 获取用户订单分页
-        Page<Orders> userPage = ordersService.getUserPage(page, pageSize);
+        Page<OrdersDto> userPage = ordersService.getUserPage(page, pageSize);
 
         return R.success(userPage);
     }

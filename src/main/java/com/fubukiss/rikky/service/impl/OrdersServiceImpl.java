@@ -6,9 +6,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fubukiss.rikky.common.BaseContext;
 import com.fubukiss.rikky.common.CustomException;
+import com.fubukiss.rikky.dto.OrdersDto;
 import com.fubukiss.rikky.entity.*;
 import com.fubukiss.rikky.mapper.OrdersMapper;
 import com.fubukiss.rikky.service.*;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -133,15 +135,52 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
      * @param pageSize 每页数量
      * @return 分页数据
      */
-    public Page<Orders> getUserPage(int page, int pageSize) {
+    public Page<OrdersDto> getUserPage(int page, int pageSize) {
         // 构造分页对象
         Page<Orders> ordersPage = new Page<>(page, pageSize);
+        Page<OrdersDto> dtoPage = new Page<>(); // 用于存放转换后的数据
         // 构造查询条件
         LambdaQueryWrapper<Orders> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(Orders::getUserId, BaseContext.getCurrentId());
         queryWrapper.orderByDesc(Orders::getOrderTime);
-        // 查询数据
-        return this.page(ordersPage, queryWrapper);
+        // 查询基本订单数据
+        this.page(ordersPage, queryWrapper);
+        // 拷贝对象，将ordersPage中的数据拷贝到dtoPage中，除去records属性,records属性需要单独处理
+        BeanUtils.copyProperties(ordersPage, dtoPage, "records");
+        // records是Page对象的一个属性，用于存放分页查询的结果，因为orderPage的records很多数据比dtoPage的少，需要单独处理
+        List<Orders> ordersPageRecords = ordersPage.getRecords();
+        // 将records中的每个Orders对象转换为OrdersDto对象
+        List<OrdersDto> dtoPageRecords = ordersPageRecords.stream().map(item -> {
+            // 1.先创建OrdersDto对象
+            OrdersDto ordersDto = new OrdersDto();
+            // 2.将Orders对象中的基本数据拷贝到OrdersDto对象中
+            BeanUtils.copyProperties(item, ordersDto);
+            // 3.查询订单商品数据
+            LambdaQueryWrapper<OrderDetail> orderDetailQueryWrapper = new LambdaQueryWrapper<>();
+            orderDetailQueryWrapper.eq(OrderDetail::getOrderId, item.getId());
+            List<OrderDetail> orderDetails = orderDetailService.list(orderDetailQueryWrapper);
+            // 4.将订单商品数据设置到OrdersDto对象中
+            ordersDto.setOrderDetails(orderDetails);
+            // 5.将其它数据设置到OrdersDto对象中
+            LambdaQueryWrapper<User> userQueryWrapper = new LambdaQueryWrapper<>();
+            userQueryWrapper.eq(User::getId, item.getUserId());
+            User user = userService.getOne(userQueryWrapper);
+            if (user != null) {
+                ordersDto.setUserName(user.getName());
+                ordersDto.setEmail(user.getEmail());
+            }
+            ordersDto.setAmount(item.getAmount());
+            ordersDto.setConsignee(item.getConsignee());
+            ordersDto.setAddress(item.getAddress());
+
+            return ordersDto;
+
+        }).collect(Collectors.toList());
+
+        // 将转换后的数据设置到dtoPage中
+        dtoPage.setRecords(dtoPageRecords);
+
+        return dtoPage;
     }
 
 }

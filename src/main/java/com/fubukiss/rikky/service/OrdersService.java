@@ -2,6 +2,7 @@ package com.fubukiss.rikky.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.fubukiss.rikky.dto.OrdersDto;
 import com.fubukiss.rikky.entity.Orders;
 
 /**
@@ -27,5 +28,5 @@ public interface OrdersService extends IService<Orders> {
      * @param pageSize 每页数量
      * @return 分页数据
      */
-    Page<Orders> getUserPage(int page, int pageSize);
+    Page<OrdersDto> getUserPage(int page, int pageSize);
 }
