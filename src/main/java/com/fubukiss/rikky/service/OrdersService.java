@@ -4,6 +4,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.fubukiss.rikky.dto.OrdersDto;
 import com.fubukiss.rikky.entity.Orders;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.Date;
 
 /**
  * FileName: OrdersService
@@ -29,4 +32,20 @@ public interface OrdersService extends IService<Orders> {
      * @return 分页数据
      */
     Page<OrdersDto> getUserPage(int page, int pageSize);
+
+
+    /**
+     * 获取管理员订单详情
+     *
+     * @param page      页码
+     * @param pageSize  每页数量
+     * @param number    订单号
+     * @param beginTime 开始时间
+     * @param endTime   结束时间
+     */
+    Page<OrdersDto> getPage(int page,
+                            int pageSize,
+                            String number,
+                            @DateTimeFormat(pattern = "yyyy-mm-dd HH:mm:ss") Date beginTime,
+                            @DateTimeFormat(pattern = "yyyy-mm-dd HH:mm:ss") Date endTime);
 }
