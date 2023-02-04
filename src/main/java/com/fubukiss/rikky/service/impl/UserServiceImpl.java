@@ -10,6 +10,7 @@ import com.fubukiss.rikky.util.ValidateCodeUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -44,7 +45,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * 失效时间
      */
     @Value("${spring.mail.timeout}")
-    private int TIME_OUT;
+    private int TIME_OUT_MINUTES;
+
+    /**
+     * RedisTemplate redis操作模板
+     */
+    @Autowired
+    private RedisTemplate<Object, Object> redisTemplate;
 
 
     /**
@@ -57,8 +64,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         // 生成4位验证码
         String code = ValidateCodeUtils.generateValidateCode(4).toString();
         log.info("Session:{}, Code:{}, to {}", session, code, email);      // Slf4j的日志输出
-        // 设置session过期时间
-        session.setMaxInactiveInterval(60 * TIME_OUT);
         // 发送邮件
         // 构建一个邮件对象
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
@@ -69,9 +74,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         // 设置邮件主题
         simpleMailMessage.setSubject("[悦刻外卖]登陆验证码");
         // 设置邮件内容
-        simpleMailMessage.setText("欢迎使用悦刻外卖平台\n您的验证码为：" + code + "，请在" + TIME_OUT + "分钟内使用！\n【该邮件为系统自动发送，请勿回复】");
-        // 将验证码存入session
-        session.setAttribute("verificationCode", code);
+        simpleMailMessage.setText("欢迎使用悦刻外卖平台\n您的验证码为：" + code + "，请在" + TIME_OUT_MINUTES + "分钟内使用！\n【该邮件为系统自动发送，请勿回复】");
+        // 将验证码存入redis，设置失效时间TIME_OUT_MINUTES分钟
+        redisTemplate.opsForValue().set(email, code, TIME_OUT_MINUTES, java.util.concurrent.TimeUnit.MINUTES);
         // 发送邮件
         try {
             javaMailSender.send(simpleMailMessage);
@@ -93,10 +98,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     @Override
     public User loginByVerificationCode(String email, String code, HttpSession session) {
-        // 获取session中的验证码
-        String verificationCodeInSession = (String) session.getAttribute("verificationCode");
+        // 获取redis中的验证码
+        Object verificationCodeInRedis = redisTemplate.opsForValue().get(email);
         // 验证码是否正确
-        if (verificationCodeInSession != null && verificationCodeInSession.equals(code)) {
+        if (verificationCodeInRedis != null && verificationCodeInRedis.equals(code)) {
             // 验证码正确
             // 查询用户是否存在
             LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
@@ -111,6 +116,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             }
             // 将用户信息存入session
             session.setAttribute("user", user.getId());
+            // 将redis中的验证码删除
+            redisTemplate.delete(email);
+
             return user;
         } else {
             // 验证码错误
