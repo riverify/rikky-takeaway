@@ -2,6 +2,7 @@ package com.fubukiss.rikky.service.impl;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fubukiss.rikky.dto.DishDto;
 import com.fubukiss.rikky.entity.Dish;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -77,6 +79,13 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
 
         // 保存口味信息到口味表(包括与之[dishFlavor的dishId]匹配的dish的id)
         dishFlavorService.saveBatch(flavors);  // saveBatch() 为MyBatis-Plus提供的批量插入方法
+
+
+        // 清理redis缓存
+        Set<Object> keys = redisTemplate.keys("dish_*");    // 获取所有以dish_开头的key
+        assert keys != null;
+        redisTemplate.delete(keys);
+
     }
 
 
@@ -89,10 +98,13 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
     @Transactional
     @Override
     public void updateWithFlavors(DishDto dishDto) {
+
         // 修改基本信息到菜品表
         this.updateById(dishDto);
+
         // 获取菜品id
         Long id = dishDto.getId();
+
         // 修改口味信息到口味表
         // 1.删除原有口味
         dishFlavorService.remove(new LambdaQueryWrapper<DishFlavor>().eq(DishFlavor::getDishId, id));
@@ -107,6 +119,11 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
 
         // 保存口味信息到口味表(包括与之[dishFlavor的dishId]匹配的dish的id)
         dishFlavorService.saveBatch(flavors);  // saveBatch() 为MyBatis-Plus提供的批量插入方法
+
+        // 清理redis缓存
+        Set<Object> keys = redisTemplate.keys("dish_*");    // 获取所有以dish_开头的key
+        assert keys != null;
+        redisTemplate.delete(keys);
 
     }
 
@@ -202,6 +219,66 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
         redisTemplate.opsForValue().set(key, dtoList, 1, TimeUnit.DAYS);    // 1天后过期
 
         return dtoList;
+    }
+
+    /**
+     * 修改菜品状态，如果是在售状态则修改为下架，如果是下架状态则修改为在售
+     *
+     * @param ids    菜品id
+     * @param status 需要修改成的状态
+     */
+    @Override
+    public void updateDishStatus(String ids, Integer status) {
+
+        // 将ids以逗号分隔
+        String[] idArray = ids.split(",");
+
+        // 遍历idArray，将每一个id的菜品状态修改为status
+        for (String id : idArray) {
+            // 条件构造器
+            LambdaUpdateWrapper<Dish> wrapper = new LambdaUpdateWrapper<>();
+            // 设置条件 (where id = id)
+            wrapper.eq(Dish::getId, id);
+            // 设置要修改的字段 (set status = status)
+            wrapper.set(Dish::getStatus, status);
+            // 执行修改
+            this.update(wrapper);
+        }
+
+        // 清理redis缓存
+        Set<Object> keys = redisTemplate.keys("dish_*");    // 获取所有以dish_开头的key
+        assert keys != null;
+        redisTemplate.delete(keys);
+    }
+
+
+    /**
+     * 删除菜品（逻辑删除)
+     *
+     * @param ids 前端传入的菜品id，可能是一个，也可能是多个，多个数据是以逗号分隔的
+     */
+    @Override
+    public void deleteByIds(String ids) {
+        // 将ids以逗号分隔
+        String[] idArray = ids.split(",");
+        // 遍历idArray，将每一个id的菜品状态修改为status
+        for (String id : idArray) {
+            // 条件构造器
+            LambdaUpdateWrapper<Dish> wrapper = new LambdaUpdateWrapper<>();
+            // 设置条件 (where id = id)
+            wrapper.eq(Dish::getId, id);
+            // 修改菜品状态为停售
+            wrapper.set(Dish::getStatus, 0);
+            // 设置删除字段为1 (set is_deleted = 1)
+            wrapper.set(Dish::getIsDeleted, 1);  // 由于Dish实体类的isDeleted使用了@TableLogic进行逻辑删除，这里还可以直接调用dishService的removeById方法，会自动将is_deleted字段设置为1
+            // 执行修改
+            this.update(wrapper);
+        }
+
+        // 清理redis缓存
+        Set<Object> keys = redisTemplate.keys("dish_*");    // 获取所有以dish_开头的key
+        assert keys != null;
+        redisTemplate.delete(keys);
     }
 
 }

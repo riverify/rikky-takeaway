@@ -46,4 +46,21 @@ public interface DishService extends IService<Dish> {
      * @return 菜品数据List（包含口味数据）
      */
     List<DishDto> listWithFlavors(Dish dish);
+
+
+    /**
+     * 修改菜品状态，如果是在售状态则修改为下架，如果是下架状态则修改为在售
+     *
+     * @param ids    菜品id
+     * @param status 需要修改成的状态
+     */
+    void updateDishStatus(String ids, Integer status);
+
+
+    /**
+     * 删除菜品（逻辑删除)
+     *
+     * @param ids 前端传入的菜品id，可能是一个，也可能是多个，多个数据是以逗号分隔的
+     */
+    void deleteByIds(String ids);
 }

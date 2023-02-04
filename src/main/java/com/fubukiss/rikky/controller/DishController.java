@@ -1,7 +1,6 @@
 package com.fubukiss.rikky.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fubukiss.rikky.common.R;
 import com.fubukiss.rikky.dto.DishDto;
@@ -162,19 +161,8 @@ public class DishController {
     @PostMapping("/status/{status}")
     public R<String> changeStatus(String ids, @PathVariable Integer status) {
         log.info("修改菜品状态，id: {}, status: {}", ids, status);
-        // 将ids以逗号分隔
-        String[] idArray = ids.split(",");
-        // 遍历idArray，将每一个id的菜品状态修改为status
-        for (String id : idArray) {
-            // 条件构造器
-            LambdaUpdateWrapper<Dish> wrapper = new LambdaUpdateWrapper<>();
-            // 设置条件 (where id = id)
-            wrapper.eq(Dish::getId, id);
-            // 设置要修改的字段 (set status = status)
-            wrapper.set(Dish::getStatus, status);
-            // 执行修改
-            dishService.update(wrapper);
-        }
+        // 修改菜品状态
+        dishService.updateDishStatus(ids, status);
 
         return R.success("修改成功");
     }
@@ -190,21 +178,8 @@ public class DishController {
     @DeleteMapping
     public R<String> delete(String ids) {
         log.info("删除菜品，id: {}", ids);
-        // 将ids以逗号分隔
-        String[] idArray = ids.split(",");
-        // 遍历idArray，将每一个id的菜品状态修改为status
-        for (String id : idArray) {
-            // 条件构造器
-            LambdaUpdateWrapper<Dish> wrapper = new LambdaUpdateWrapper<>();
-            // 设置条件 (where id = id)
-            wrapper.eq(Dish::getId, id);
-            // 修改菜品状态为停售
-            wrapper.set(Dish::getStatus, 0);
-            // 设置删除字段为1 (set is_deleted = 1)
-            wrapper.set(Dish::getIsDeleted, 1);  // 由于Dish实体类的isDeleted使用了@TableLogic进行逻辑删除，这里还可以直接调用dishService的removeById方法，会自动将is_deleted字段设置为1
-            // 执行修改
-            dishService.update(wrapper);
-        }
+        // 删除菜品
+        dishService.deleteByIds(ids);
 
         return R.success("删除成功");
     }   // fixme:没有做到同步删除菜品和菜品口味的关联表
