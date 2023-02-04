@@ -1,5 +1,6 @@
 package com.fubukiss.rikky.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.fubukiss.rikky.dto.SetmealDto;
 import com.fubukiss.rikky.entity.Setmeal;
@@ -51,4 +52,20 @@ public interface SetmealService extends IService<Setmeal> {
      * @param setmealDto 套餐数据传输对象
      */
     void updateWithDishes(SetmealDto setmealDto);
+
+    /**
+     * 获取所有套餐的基本信息和套餐所含菜品
+     *
+     * @param setmeal 套餐查询条件
+     */
+    List<SetmealDto> listWithDishes(Setmeal setmeal);
+
+    /**
+     * 分页查询套餐信息
+     *
+     * @param page     当前页
+     * @param pageSize 每页显示条数
+     * @param name     套餐名称
+     */
+    Page<SetmealDto> page(int page, int pageSize, String name);
 }
