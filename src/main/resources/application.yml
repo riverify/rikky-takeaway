@@ -1,8 +1,13 @@
 server:
   port: 8080  # default port
+
+
 spring:
   application:
     name: rikky_takeaway  # 应用名称
+
+
+  # 数据库信息|必填
   datasource:
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
@@ -11,7 +16,9 @@ spring:
       url: # 请自行配置数据库url
       username: # 请自行配置数据库username
       password: # 本地测试时请自行添加password
-  # 邮箱验证配置信息
+
+
+  # 邮箱验证配置信息|必填
   mail:
     host: smtp.qq.com
     username: # 请自行配置邮箱地址
@@ -26,6 +33,16 @@ spring:
         # 开启debug以后，邮件发送过程的日志会在控制台上打印出来
         debug: true
 
+
+  # redis缓存相关配置|必填
+  redis:
+    host: localhost
+    port: 6379
+    password: # 本地测试时请自行添加password
+    database: 0 # 默认使用0号数据库
+
+
+# mybatis-plus配置信息
 mybatis-plus:
   configuration:
     # 在映射实体或者属性时，将数据库中表名和字段名中的下划线去掉，按照驼峰命名法映射
@@ -36,6 +53,8 @@ mybatis-plus:
       id-type: ASSIGN_ID
 
 
+# 其它配置信息
 rikky:
+  # 文件存储位置信息|必填
   linux-path: /home/river/code/IdeaProjects/rikky-takeaway/img/  # 本地测试时，文件存储路径
 #  windows-path:
