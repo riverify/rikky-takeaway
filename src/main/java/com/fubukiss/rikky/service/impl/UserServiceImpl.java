@@ -114,7 +114,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             return user;
         } else {
             // 验证码错误
-            throw new CustomException("验证码错误！");
+            throw new CustomException("验证码输入错误！");
         }
     }
 }
