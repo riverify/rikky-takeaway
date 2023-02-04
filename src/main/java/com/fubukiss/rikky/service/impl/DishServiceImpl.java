@@ -12,11 +12,13 @@ import com.fubukiss.rikky.service.DishService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -39,6 +41,13 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
      */
     @Autowired
     private DishFlavorService dishFlavorService;
+
+    /**
+     * redis缓存
+     */
+    @Autowired
+    private RedisTemplate<Object, Object> redisTemplate;
+
 
     /**
      * 添加菜品，同时插入口味的数据
@@ -110,19 +119,89 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
      */
     @Override
     public DishDto getByIdWithFlavors(Long id) {
+
         // 获取菜品的基本信息，从dish表中获取
         Dish dish = this.getById(id);
+
         // 新建一个DishDto对象，将菜品基本信息赋值给DishDto
         DishDto dishDto = new DishDto();
         BeanUtils.copyProperties(dish, dishDto);
+
         // 查询当前菜品的口味信息，从dish_flavor表中获取
         LambdaQueryWrapper<DishFlavor> queryWrapper = new LambdaQueryWrapper<>();       // 条件构造器
         queryWrapper.eq(DishFlavor::getDishId, id);                         // 查询条件，查询dishId为id的口味
         List<DishFlavor> flavors = dishFlavorService.list(queryWrapper);    // 查询的口味结果
+
         // 将口味结果赋值给DishDto
         dishDto.setFlavors(flavors);
 
         return dishDto;
+    }
+
+
+    /**
+     * 获得所有菜品和口味的数据
+     *
+     * @return 菜品数据List（包含口味数据）
+     */
+    @Override
+    public List<DishDto> listWithFlavors(Dish dish) {
+        // 新建一个DishDto的List
+        List<DishDto> dtoList = null;
+
+        // 动态构造key
+        String key = "dish_" + dish.getCategoryId() + "_" + dish.getStatus();   // 生成redis的key
+
+        // 先从redis中获取数据
+        dtoList = (List<DishDto>) redisTemplate.opsForValue().get(key);
+
+        // 如果存在，则直接返回
+        if (dtoList != null) {
+            return dtoList;
+        }
+
+        // 如果不存在，则从数据库中获取数据
+        // 构造查询条件
+        LambdaQueryWrapper<Dish> queryWrapper = new LambdaQueryWrapper<>();
+
+        // where status = 1 and category_id = ?  由于Dish的isDeleted字段使用了@TableLogic注解，所以这里不需要设置is_deleted = 0，MP会自动将is_deleted = 0的条件加入到查询条件中
+        queryWrapper.eq(Dish::getStatus, 1);
+        queryWrapper.eq(dish.getCategoryId() != null, Dish::getCategoryId, dish.getCategoryId()); // dish.getCategoryId() != null 为true则执行后面的语句
+
+        // 添加排序条件 where category_id = ? order by sort asc , update_time desc
+        queryWrapper.orderByAsc(Dish::getSort).orderByDesc(Dish::getUpdateTime);
+
+        // 查询到的菜品列表，不包含菜品口味信息
+        List<Dish> list = this.list(queryWrapper);
+
+        // 将查询到的菜品列表转换为菜品DTO列表，包含菜品口味信息
+        dtoList = list.stream().map((item) -> {
+
+            // 1.new DishDto()是为了将dish对象转换为dishDto对象，因为dishDto对象中包含了dish对象中的所有属性，还包含了菜品口味信息
+            DishDto dishDto = new DishDto();
+
+            // 2.先进行dishDto的普通字段拷贝
+            BeanUtils.copyProperties(item, dishDto);
+
+            // 3.再进行dishDto的菜品口味字段拷贝
+            Long DishId = item.getId();                                 // 获取每一个dish对象(item)的id
+            LambdaQueryWrapper<DishFlavor> dishFlavorQueryWrapper = new LambdaQueryWrapper<>();    // select * from dish_flavor
+            dishFlavorQueryWrapper.eq(DishFlavor::getDishId, DishId);      // where dish_id = ?
+
+            // 4.查询到的菜品口味列表
+            List<DishFlavor> dishFlavorList = dishFlavorService.list(dishFlavorQueryWrapper);
+
+            // 5.将查询到的菜品口味列表转换为菜品口味DTO列表
+            dishDto.setFlavors(dishFlavorList);
+
+            return dishDto;
+
+        }).collect(Collectors.toList());  // collect方法将stream转换为List，因为dishDtoRecordsList是一个List对象，所以需要将stream转换为List
+
+        // 将查询到的数据存入redis中
+        redisTemplate.opsForValue().set(key, dtoList, 1, TimeUnit.DAYS);    // 1天后过期
+
+        return dtoList;
     }
 
 }

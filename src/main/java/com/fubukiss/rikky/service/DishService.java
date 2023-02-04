@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.fubukiss.rikky.dto.DishDto;
 import com.fubukiss.rikky.entity.Dish;
 
+import java.util.List;
+
 
 /**
  * <p>Project: rikky-takeaway - DishService 菜品Service
@@ -37,4 +39,11 @@ public interface DishService extends IService<Dish> {
      * @return 菜品数据（包含口味数据）
      */
     DishDto getByIdWithFlavors(Long id);
+
+    /**
+     * 获得所有菜品和口味的数据
+     *
+     * @return 菜品数据List（包含口味数据）
+     */
+    List<DishDto> listWithFlavors(Dish dish);
 }

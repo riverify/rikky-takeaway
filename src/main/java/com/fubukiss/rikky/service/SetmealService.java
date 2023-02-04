@@ -51,4 +51,11 @@ public interface SetmealService extends IService<Setmeal> {
      * @param setmealDto 套餐数据传输对象
      */
     void updateWithDishes(SetmealDto setmealDto);
+
+    /**
+     * 获取所有套餐的基本信息和套餐所含菜品
+     *
+     * @param setmeal 套餐查询条件
+     */
+    List<SetmealDto> listWithDishes(Setmeal setmeal);
 }

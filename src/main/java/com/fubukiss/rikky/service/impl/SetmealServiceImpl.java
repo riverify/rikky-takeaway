@@ -13,6 +13,7 @@ import com.fubukiss.rikky.service.SetmealService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,6 +41,13 @@ public class SetmealServiceImpl extends ServiceImpl<SetmealMapper, Setmeal> impl
      */
     @Autowired
     private SetmealDishService setmealDishService;
+
+    /**
+     * Redis缓存
+     */
+    @Autowired
+    private RedisTemplate<Object, Object> redisTemplate;
+
 
     /**
      * 新增套餐，同时需要保存套餐和菜品的关联关系
@@ -155,5 +163,71 @@ public class SetmealServiceImpl extends ServiceImpl<SetmealMapper, Setmeal> impl
         // 保存新的关联关系
         setmealDishService.saveBatch(setmealDishes);  // saveBatch()方法为MyBatis-Plus提供的批量保存方法，保存的是一个集合
 
+    }
+
+
+    /**
+     * 查询套餐列表，同时查询套餐所含菜品信息
+     *
+     * @param setmeal 查询条件
+     * @return 套餐列表
+     */
+    @Override
+    public List<SetmealDto> listWithDishes(Setmeal setmeal) {
+
+        // 构造返回类型
+        List<SetmealDto> setmealDtoList = null;
+
+        // 动态构造key
+        String key = "setmeal_" + setmeal.getCategoryId() + "_" + setmeal.getStatus();   // 生成redis的key
+
+        // 获取redis中的数据
+        setmealDtoList = (List<SetmealDto>) redisTemplate.opsForValue().get(key);
+
+        // 如果redis中有数据，则直接返回
+        if (setmealDtoList != null) {
+            return setmealDtoList;
+        }
+
+        // 如果redis中没有数据，则从数据库中查询
+        // 创建构造器
+        LambdaQueryWrapper<Setmeal> queryWrapper = new LambdaQueryWrapper<>();
+
+        // 设置查询条件 where category_id = ? and status = 1 order by update_time desc
+        queryWrapper.eq(setmeal.getCategoryId() != null, Setmeal::getCategoryId, setmeal.getCategoryId())
+                .eq(Setmeal::getStatus, 1)
+                .orderByDesc(Setmeal::getUpdateTime);
+
+        // 查询套餐基本信息
+        List<Setmeal> setmealList = this.list(queryWrapper);
+
+        // 查询套餐所含菜品信息
+        setmealDtoList = setmealList.stream().map(item -> {
+
+            // 创建套餐dto 包含套餐基本信息和套餐所含菜品信息
+            SetmealDto setmealDto = new SetmealDto();
+
+            // 设置套餐基本信息
+            BeanUtils.copyProperties(item, setmealDto);
+
+            // 查询套餐所含菜品信息
+            LambdaQueryWrapper<SetmealDish> setmealDishQueryWrapper = new LambdaQueryWrapper<>(); // select * from setmeal_dish
+            setmealDishQueryWrapper.eq(SetmealDish::getSetmealId, item.getId()); // where setmeal_id = ?
+
+            // 查询套餐所含菜品信息
+            List<SetmealDish> setmealDishList = setmealDishService.list(setmealDishQueryWrapper);
+
+            // 加入套餐dto
+            setmealDto.setSetmealDishes(setmealDishList);
+
+            return setmealDto;
+
+        }).collect(Collectors.toList());
+
+        // 将数据存入redis
+        redisTemplate.opsForValue().set(key, setmealDtoList);
+
+
+        return setmealDtoList;
     }
 }

@@ -7,7 +7,6 @@ import com.fubukiss.rikky.common.R;
 import com.fubukiss.rikky.dto.DishDto;
 import com.fubukiss.rikky.entity.Category;
 import com.fubukiss.rikky.entity.Dish;
-import com.fubukiss.rikky.entity.DishFlavor;
 import com.fubukiss.rikky.service.CategoryService;
 import com.fubukiss.rikky.service.DishFlavorService;
 import com.fubukiss.rikky.service.DishService;
@@ -220,35 +219,11 @@ public class DishController {
      */
     @GetMapping("/list")
     public R<List<DishDto>> list(Dish dish) {
-        // 构造查询条件
-        LambdaQueryWrapper<Dish> queryWrapper = new LambdaQueryWrapper<>();
-        // where status = 1 and category_id = ?  由于Dish的isDeleted字段使用了@TableLogic注解，所以这里不需要设置is_deleted = 0，MP会自动将is_deleted = 0的条件加入到查询条件中
-        queryWrapper.eq(Dish::getStatus, 1);
-        queryWrapper.eq(dish.getCategoryId() != null, Dish::getCategoryId, dish.getCategoryId()); // dish.getCategoryId() != null 为true则执行后面的语句
-        // 添加排序条件 where category_id = ? order by sort asc , update_time desc
-        queryWrapper.orderByAsc(Dish::getSort).orderByDesc(Dish::getUpdateTime);
-        // 查询到的菜品列表，不包含菜品口味信息
-        List<Dish> list = dishService.list(queryWrapper);
-        // 将查询到的菜品列表转换为菜品DTO列表，包含菜品口味信息
-        List<DishDto> dtoList = list.stream().map((item) -> {
-            // 1.new DishDto()是为了将dish对象转换为dishDto对象，因为dishDto对象中包含了dish对象中的所有属性，还包含了菜品口味信息
-            DishDto dishDto = new DishDto();
-            // 2.先进行dishDto的普通字段拷贝
-            BeanUtils.copyProperties(item, dishDto);
-            // 3.再进行dishDto的菜品口味字段拷贝
-            Long DishId = item.getId();                                 // 获取每一个dish对象(item)的id
-            LambdaQueryWrapper<DishFlavor> dishFlavorQueryWrapper = new LambdaQueryWrapper<>();    // select * from dish_flavor
-            dishFlavorQueryWrapper.eq(DishFlavor::getDishId, DishId);      // where dish_id = ?
-            // 4.查询到的菜品口味列表
-            List<DishFlavor> dishFlavorList = dishFlavorService.list(dishFlavorQueryWrapper);
-            // 5.将查询到的菜品口味列表转换为菜品口味DTO列表
-            dishDto.setFlavors(dishFlavorList);
+        log.info("查询菜品列表，dish: {}", dish);
+        // 查询菜品列表
+        List<DishDto> dishDtoList = dishService.listWithFlavors(dish);
 
-            return dishDto;
-        }).collect(Collectors.toList());  // collect方法将stream转换为List，因为dishDtoRecordsList是一个List对象，所以需要将stream转换为List
-
-
-        return R.success(dtoList);
+        return R.success(dishDtoList);
     }
 
 }
