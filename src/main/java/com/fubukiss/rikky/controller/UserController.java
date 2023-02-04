@@ -83,7 +83,7 @@ public class UserController {
      * @param session 会话
      * @return 通用返回类
      */
-    @PostMapping("/logout")
+    @PostMapping("/loginout")
     public R<String> logout(HttpSession session) {
         log.info("用户登出，session:{}", session);
         // 清除session
