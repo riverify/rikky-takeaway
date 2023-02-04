@@ -76,4 +76,19 @@ public class UserController {
         return R.error("登陆失败，请检查邮箱地址和验证码");
     }
 
+
+    /**
+     * <h2>退出登陆<h2/>
+     *
+     * @param session 会话
+     * @return 通用返回类
+     */
+    @PostMapping("/loginout")
+    public R<String> logout(HttpSession session) {
+        log.info("用户登出，session:{}", session);
+        // 清除session
+        session.invalidate();   // 通过session.invalidate()方法清除本次会话
+        return R.success("登出成功");
+    }
+
 }
