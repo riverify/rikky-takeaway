@@ -1,21 +1,17 @@
 package com.fubukiss.rikky.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fubukiss.rikky.common.R;
 import com.fubukiss.rikky.dto.DishDto;
-import com.fubukiss.rikky.entity.Category;
 import com.fubukiss.rikky.entity.Dish;
 import com.fubukiss.rikky.service.CategoryService;
 import com.fubukiss.rikky.service.DishFlavorService;
 import com.fubukiss.rikky.service.DishService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * <p>Project: rikky-takeaway - DishController 菜品相关的控制类
@@ -76,41 +72,10 @@ public class DishController {
      */
     @GetMapping("/page")
     public R<Page> page(int page, int pageSize, String name) {
-        // 构造分页构造对象
-        Page<Dish> pageInfo = new Page<>(page, pageSize);   // Page对象的构造方法需要传入当前页码和每页显示的条数
-        Page<DishDto> dishDtoPage = new Page<>();   // disDto中比dish多了flavorsName字段，用于存储菜品口味的名称，因为只用dish对象无法获取菜品口味的名称，所以先创建一个空的Page对象
-        // 条件构造器
-        LambdaQueryWrapper<Dish> wrapper = new LambdaQueryWrapper<>();
-        // 如果name不为空，则添加查询条件 (where name like '%name%')
-        wrapper.like(name != null, Dish::getName, name);  // like方法的第一个参数为是否添加查询条件，第二个参数为查询的字段(Dish中的name)，第三个参数为查询的值(参数name)
-        // 添加排序条件 (order by update-time desc)
-        wrapper.orderByDesc(Dish::getUpdateTime);
-        // 分页查询
-        dishService.page(pageInfo, wrapper);   // page方法的第一个参数为分页构造对象，第二个参数为条件构造器
-        // 对象拷贝，将pageInfo中的dish对象拷贝到dishDtoPage中的dishDto对象中
-        BeanUtils.copyProperties(pageInfo, dishDtoPage, "records"); // BeanUtils是Spring提供的工具类，用于对象拷贝，第一个参数为源对象，第二个参数为目标对象，第三个参数为忽略的字段，之所以忽略records字段是因为两个records字段的类型不一致，无法直接拷贝
-        // records是Page对象中的一个字段，用于存储分页查询的结果，因为dishDtoPage中的records字段是空的，所以需要手动将dishDtoPage中的records字段赋值
-        List<Dish> records = pageInfo.getRecords();
+        log.info("分页查询菜品，page: {}, pageSize: {}, name: {}", page, pageSize, name);
 
-        // 将records中的每个dish对象的categoryId经过查询出categoryName，然后将categoryName赋值给dishDto对象的categoryName字段，同时将其它字段也赋值给dishDto对象，返回的是一个List<DishDto>对象
-        List<DishDto> dishDtoRecordsList = records.stream().map((item) -> {  // item是records List中的每一个元素，即每一个dish对象，其中却少了菜品口味的名称属性(categoryName)，于是我们需要将其变为dishDto对象，再利用CategoryService通过dish中的categoryId获取菜品口味的名称
-            // 1.new DishDto()是为了将dish对象转换为dishDto对象，因为dishDto中多了flavorsName字段，用于存储菜品口味的名称
-            DishDto dishDto = new DishDto();
-            // 2.先进行dishDto的普通字段拷贝
-            BeanUtils.copyProperties(item, dishDto);
-            // 3.再进行dishDto的flavorsName字段拷贝
-            Long categoryId = item.getCategoryId();                     // 获取page里面records的每一个dish对象的categoryId
-            Category category = categoryService.getById(categoryId);    // 根据categoryId查询category对象
-            if (category != null) {                                     // 防止category为空
-                String categoryName = category.getName();               // 通过查询的category对象获取categoryName
-                dishDto.setCategoryName(categoryName);                  // 将categoryName赋值给dishDto对象的categoryName
-            }
-
-            return dishDto;
-        }).collect(Collectors.toList());  // collect方法将stream转换为List，因为dishDtoRecordsList是一个List对象，所以需要将stream转换为List
-
-        // 将dishDtoRecordsList赋值给dishDtoPage的records字段
-        dishDtoPage.setRecords(dishDtoRecordsList);
+        // 查询dishDtoPage对象
+        Page<DishDto> dishDtoPage = dishService.page(page, pageSize, name);
 
         // 返回dishDtoPage对象
         return R.success(dishDtoPage);
@@ -143,6 +108,7 @@ public class DishController {
     @PutMapping
     public R<String> put(@RequestBody DishDto dishDto) {
         log.info("修改菜品，dishDto: {}", dishDto.toString());       // Slf4j的日志输出
+
         // 保存菜品
         dishService.updateWithFlavors(dishDto);
 
@@ -161,6 +127,7 @@ public class DishController {
     @PostMapping("/status/{status}")
     public R<String> changeStatus(String ids, @PathVariable Integer status) {
         log.info("修改菜品状态，id: {}, status: {}", ids, status);
+
         // 修改菜品状态
         dishService.updateDishStatus(ids, status);
 
@@ -178,6 +145,7 @@ public class DishController {
     @DeleteMapping
     public R<String> delete(String ids) {
         log.info("删除菜品，id: {}", ids);
+
         // 删除菜品
         dishService.deleteByIds(ids);
 
@@ -195,6 +163,7 @@ public class DishController {
     @GetMapping("/list")
     public R<List<DishDto>> list(Dish dish) {
         log.info("查询菜品列表，dish: {}", dish);
+
         // 查询菜品列表
         List<DishDto> dishDtoList = dishService.listWithFlavors(dish);
 
