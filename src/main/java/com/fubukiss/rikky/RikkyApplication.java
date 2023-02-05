@@ -20,6 +20,6 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 public class RikkyApplication {
     public static void main(String[] args) {
         SpringApplication.run(RikkyApplication.class, args);
-        log.info("项目启动成功! [悦刻外卖 version: 1.1.0] https://github.com/Riverify/rikky-takeaway");
+        log.info("项目启动成功 [悦刻外卖 version: 1.1.0] https://github.com/Riverify/rikky-takeaway");
     }
 }
