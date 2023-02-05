@@ -137,13 +137,19 @@ IDEA，Maven依赖就会自动下载了。
   无论你使用什么数据库**管理工具**，请在数据库中创建一个容易被记住的数据库名，例如`rikky_takeaway`，然后在导入本仓库的`sql`
   文件夹中的[`db.sql`文件](https://github.com/Riverify/rikky-takeaway/blob/main/sql/db.sql)。
   之后需要回到本项目的`src/main/resources`目录下，找到`application.yml`文件，补充数据库的连接信息。
+
+
 * **Redis配置** </p>
   当你已经安装好Redis并且可以顺利连接到Redis数据库时，需要回到本项目的`src/main/resources`目录下，找到`application.yml`
   文件，补充Redis的连接信息。
+
+
 * **邮箱配置** </p>
   该邮箱作为发送验证码的用途，在这里我建议使用QQ邮箱，因为QQ邮箱的SMTP服务是免费的，而且不需要进行额外的配置。SMTP服务的配置信息可以在QQ邮箱的设置中找到，
   登陆[你的QQ邮箱](https://mail.qq.com/)，点击左上角的设置按钮，选择`设置`，选择`账户`，找到`开启POP3/SMTP服务`，经过一系列的确认后，
   你将获得一个`授权码`，这个授权码就是你的邮箱密码`password`，你可以在`application.yml`中的邮箱配置信息中配置它。
+
+
 * **文件存储位置配置** </p>
   该系统由于需要存储用户上传的图片，所以需要配置一个文件存储的位置，建议在IntelliJ IDEA中右键`img`文件夹，`Copy Path`
   ，选择复制绝对路径，
