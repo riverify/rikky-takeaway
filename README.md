@@ -9,7 +9,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/Riverify/rikky-takeaway">
+  <a href="https://github.com/riverify/rikky-takeaway">
     <img src="https://avatars.githubusercontent.com/u/97610640?v=4" alt="Logo" width="80" height="80">
   </a>
 
@@ -18,14 +18,14 @@
   <p align="center">
     吃得完有奖励，吃不完有惩罚
     <br />
-    <a href="https://github.com/Riverify/rikky-takeaway/releases"><strong>最新版本</strong></a>
+    <a href="https://github.com/riverify/rikky-takeaway/releases"><strong>最新版本</strong></a>
     <br />
     <br />
-    <a href="https://github.com/Riverify/rikky-takeaway">View Code</a>
+    <a href="https://github.com/riverify/rikky-takeaway">View Code</a>
     ·
-    <a href="https://github.com/Riverify/rikky-takeaway/issues">Report Bug</a>
+    <a href="https://github.com/riverify/rikky-takeaway/issues">Report Bug</a>
     ·
-    <a href="https://github.com/Riverify/rikky-takeaway/issues">Request Feature</a>
+    <a href="https://github.com/riverify/rikky-takeaway/issues">Request Feature</a>
   </p>
 </div>
 
@@ -62,10 +62,10 @@
 
 ## 关于本项目
 
-[![](https://github.com/Riverify/rikky-takeaway/blob/main/img/login1.png?raw=true)](https://github.com/Riverify/rikky-takeaway/blob/main/img/login1.png?raw=true)
+[![](https://github.com/riverify/rikky-takeaway/blob/main/img/login1.png?raw=true)](https://github.com/riverify/rikky-takeaway/blob/main/img/login1.png?raw=true)
 
 这是一个较为完整功能的版本，实现了一个外卖平台基本的后台人员菜品套餐管理和前台点餐功能。但是暂不包含后续配送功能，
-本代码遵循[Apache-2.0 license](https://github.com/Riverify/rikky-takeaway/blob/main/LICENSE)，可以作为学习用途使用，亦可做于其它用途。
+本代码遵循[Apache-2.0 license](https://github.com/riverify/rikky-takeaway/blob/main/LICENSE)，可以作为学习用途使用，亦可做于其它用途。
 
 该项目Java版本为`jdk8`，主要技术有`Spring Boot` + `Mybatis Plus`，数据库使用`MySQL`，使用`Redis`缓存优化查询。
 这算是我接触的第一个Spring Boot项目，作为学习的一个记录，我将每次的提交都在此仓库中，学习素材取自
@@ -104,9 +104,9 @@ plus开发核心技术的真java实战项目_](https://www.bilibili.com/video/BV
   IDEA，您可以很方便的在`Project Structure`中配置JDK版本。
 * MySQL 本项目使用MySQL数据库，请在运行本项目前确保您可以顺利连接到MySQL数据库。
 * Redis
-  本项目使用Redis缓存，请在运行本项目前确保您可以顺利连接到Redis数据库，如果实在不愿意使用Redis，请下载[v1.0版本](https://github.com/Riverify/rikky-takeaway/releases/tag/v1.0.3)
+  本项目使用Redis缓存，请在运行本项目前确保您可以顺利连接到Redis数据库，如果实在不愿意使用Redis，请下载[v1.0版本](https://github.com/riverify/rikky-takeaway/releases/tag/v1.0.3)
   的代码，
-  或在本项目的[release/basic-functionality](https://github.com/Riverify/rikky-takeaway/tree/release/basic-functionality)
+  或在本项目的[release/basic-functionality](https://github.com/riverify/rikky-takeaway/tree/release/basic-functionality)
   分支中下载代码，该分支为本项目的基础功能分支，不包含Redis缓存功能。
   Windows用户使用和配置可以参考:[在 windows 上安装 Redis](https://www.redis.com.cn/redis-installation.html)。
 * Maven 本项目使用Maven构建，初次打开项目时，IntelliJ IDEA会自动下载Maven依赖，若您的IntelliJ
@@ -135,7 +135,7 @@ IDEA，Maven依赖就会自动下载了。
 
 * **数据库配置** </p>
   无论你使用什么数据库**管理工具**，请在数据库中创建一个容易被记住的数据库名，例如`rikky_takeaway`，然后在导入本仓库的`sql`
-  文件夹中的[`db.sql`文件](https://github.com/Riverify/rikky-takeaway/blob/main/sql/db.sql)。
+  文件夹中的[`db.sql`文件](https://github.com/riverify/rikky-takeaway/blob/main/sql/db.sql)。
   之后需要回到本项目的`src/main/resources`目录下，找到`application.yml`文件，补充数据库的连接信息。
 
 
@@ -187,9 +187,9 @@ IDEA，Maven依赖就会自动下载了。
 * 套餐管理
 * 员工订单管理
 
-[![](https://github.com/Riverify/rikky-takeaway/blob/main/img/dishes.png?raw=true)](https://github.com/Riverify/rikky-takeaway/blob/main/img/dishes.png?raw=true)
-[![](/home/river/code/IdeaProjects/rikky-takeaway/img/login2.png)](https://github.com/Riverify/rikky-takeaway/blob/main/img/login2.png?raw=true)
-[![](/home/river/code/IdeaProjects/rikky-takeaway/img/choose.png)](https://github.com/Riverify/rikky-takeaway/blob/main/img/choose.png?raw=true)
+[![](https://github.com/riverify/rikky-takeaway/blob/main/img/dishes.png?raw=true)](https://github.com/riverify/rikky-takeaway/blob/main/img/dishes.png?raw=true)
+[![](/home/river/code/IdeaProjects/rikky-takeaway/img/login2.png)](https://github.com/riverify/rikky-takeaway/blob/main/img/login2.png?raw=true)
+[![](/home/river/code/IdeaProjects/rikky-takeaway/img/choose.png)](https://github.com/riverify/rikky-takeaway/blob/main/img/choose.png?raw=true)
 
 这算是我接触的第一个Spring Boot项目，作为学习的一个记录，我将每次的提交都在此仓库中，学习素材取自
 [_黑马程序员Java项目实战《瑞吉外卖》，轻松掌握springboot + mybatis
@@ -208,8 +208,8 @@ plus开发核心技术的真java实战项目_](https://www.bilibili.com/video/BV
 
 **贡献是使开源社区成为一个学习、激励和创造的奇妙场所的原因。我们非常感谢您的任何贡献。**
 
-如果你有什么建议可以让这个项目变得更好，请[fork](https://github.com/Riverify/rikky-takeaway/fork)该版本并**创建一个PR**。
-如果在学习中遇到了一些困难，你也可以[在这里](https://github.com/Riverify/rikky-takeaway/issues)**提交一个issue**，我会尽快回复你。
+如果你有什么建议可以让这个项目变得更好，请[fork](https://github.com/riverify/rikky-takeaway/fork)该版本并**创建一个PR**。
+如果在学习中遇到了一些困难，你也可以[在这里](https://github.com/riverify/rikky-takeaway/issues)**提交一个issue**，我会尽快回复你。
 如果它对你有帮助，请**star💫**它，再次感谢!
 
 关于如何贡献的更多信息，请查看[CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426)。
@@ -228,7 +228,7 @@ plus开发核心技术的真java实战项目_](https://www.bilibili.com/video/BV
 
 ## License
 
-Distributed under the [ApacheApache-2.0 license](https://github.com/Riverify/rikky-takeaway/blob/main/LICENSE).
+Distributed under the [ApacheApache-2.0 license](https://github.com/riverify/rikky-takeaway/blob/main/LICENSE).
 See `LICENSE.txt` for more information.
 
 <p align="right">(<a href="#悦刻外卖-readme">back to top</a>)</p>
@@ -239,9 +239,9 @@ See `LICENSE.txt` for more information.
 
 ## 联系
 
-Riverify - [@riverify](https://github.com/Riverify) - https://github.com/Riverify
+riverify - [@riverify](https://github.com/riverify) - https://github.com/riverify
 
-项目链接: [🔗https://github.com/Riverify/rikky-takeaway](https://github.com/Riverify/rikky-takeaway)
+项目链接: [🔗https://github.com/riverify/rikky-takeaway](https://github.com/riverify/rikky-takeaway)
 
 <p align="right">(<a href="#悦刻外卖-readme">back to top</a>)</p>
 
@@ -272,29 +272,29 @@ Riverify - [@riverify](https://github.com/Riverify) - https://github.com/Riverif
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
-[contributors-shield]: https://img.shields.io/github/contributors/Riverify/rikky-takeaway.svg?style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors/riverify/rikky-takeaway.svg?style=for-the-badge
 
-[contributors-url]: https://github.com/Riverify/rikky-takeaway/graphs/contributors
+[contributors-url]: https://github.com/riverify/rikky-takeaway/graphs/contributors
 
-[forks-shield]: https://img.shields.io/github/forks/Riverify/rikky-takeaway.svg?style=for-the-badge
+[forks-shield]: https://img.shields.io/github/forks/riverify/rikky-takeaway.svg?style=for-the-badge
 
-[forks-url]: https://github.com/Riverify/rikky-takeaway/network/members
+[forks-url]: https://github.com/riverify/rikky-takeaway/network/members
 
-[stars-shield]: https://img.shields.io/github/stars/Riverify/rikky-takeaway.svg?style=for-the-badge
+[stars-shield]: https://img.shields.io/github/stars/riverify/rikky-takeaway.svg?style=for-the-badge
 
-[stars-url]: https://github.com/Riverify/rikky-takeaway/stargazers
+[stars-url]: https://github.com/riverify/rikky-takeaway/stargazers
 
-[issues-shield]: https://img.shields.io/github/issues/Riverify/rikky-takeaway.svg?style=for-the-badge
+[issues-shield]: https://img.shields.io/github/issues/riverify/rikky-takeaway.svg?style=for-the-badge
 
-[issues-url]: https://github.com/Riverify/rikky-takeaway/issues
+[issues-url]: https://github.com/riverify/rikky-takeaway/issues
 
-[license-shield]: https://img.shields.io/github/license/Riverify/rikky-takeaway.svg?style=for-the-badge
+[license-shield]: https://img.shields.io/github/license/riverify/rikky-takeaway.svg?style=for-the-badge
 
-[license-url]: https://github.com/Riverify/rikky-takeaway/blob/master/LICENSE.txt
+[license-url]: https://github.com/riverify/rikky-takeaway/blob/master/LICENSE.txt
 
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 
-[linkedin-url]: https://linkedin.com/in/Riverify
+[linkedin-url]: https://linkedin.com/in/riverify
 
 [product-screenshot]: images/screenshot.png
 
