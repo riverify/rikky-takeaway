@@ -13,7 +13,7 @@ spring:
       driver-class-name: com.mysql.cj.jdbc.Driver
       # 本人将使用服务器启动项填写以下敏感信息 #
       # IDEA->Run->Edit Configurations->Environment Variables->添加以下变量 #
-      url: # 请自行配置数据库url
+      url: # 请自行配置数据库url， e.g. jdbc:mysql://localhost:3306/rikky_takeaway?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
       username: # 请自行配置数据库username
       password: # 本地测试时请自行添加password
 
