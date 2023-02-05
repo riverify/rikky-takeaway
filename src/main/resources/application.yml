@@ -37,9 +37,9 @@ spring:
   # redis缓存相关配置|必填
   redis:
     host: localhost
-    port: 6379
-    password: # 本地测试时请自行添加password
-    database: 0 # 默认使用0号数据库
+    port: 6379          # 默认端口
+    password:           # 默认为空
+    database: 0         # 默认使用0号数据库
 
 
 # mybatis-plus配置信息
