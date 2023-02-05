@@ -20,7 +20,7 @@ spring:
 
   # 邮箱验证配置信息|必填
   mail:
-    host: smtp.qq.com
+    host: smtp.qq.com   # 如果你需要使用非qq邮箱，请自行配置host
     username: # 请自行配置邮箱地址
     password: mwluvwkrszbldgbh # 请自行配置邮箱smtp授权码 具体请看本项目根目录下的README.md
     port: 587
@@ -57,4 +57,4 @@ mybatis-plus:
 rikky:
   # 文件存储位置信息|必填
   linux-path: /home/river/code/IdeaProjects/rikky-takeaway/img/  # 本地测试时，文件存储路径
-#  windows-path:
+#  windows-path: # !!!暂不使用，即使你是非linux系统，也在上方linux-path里配置存储地址
