@@ -62,7 +62,7 @@
 
 ## 关于本项目
 
-[![](/home/river/code/IdeaProjects/rikky-takeaway/img/login1.png)](https://github.com/Riverify/rikky-takeaway/blob/main/img/login1.png?raw=true)
+[![](https://github.com/Riverify/rikky-takeaway/blob/main/img/login1.png?raw=true)](https://github.com/Riverify/rikky-takeaway/blob/main/img/login1.png?raw=true)
 
 这是一个较为完整功能的版本，实现了一个外卖平台基本的后台人员菜品套餐管理和前台点餐功能。但是暂不包含后续配送功能，
 本代码遵循[Apache-2.0 license](https://github.com/Riverify/rikky-takeaway/blob/main/LICENSE)，可以作为学习用途使用，亦可做于其它用途。
@@ -187,7 +187,7 @@ IDEA，Maven依赖就会自动下载了。
 * 套餐管理
 * 员工订单管理
 
-[![](/home/river/code/IdeaProjects/rikky-takeaway/img/dishes.png)](https://github.com/Riverify/rikky-takeaway/blob/main/img/dishes.png?raw=true)
+[![](https://github.com/Riverify/rikky-takeaway/blob/main/img/dishes.png?raw=true)](https://github.com/Riverify/rikky-takeaway/blob/main/img/dishes.png?raw=true)
 [![](/home/river/code/IdeaProjects/rikky-takeaway/img/login2.png)](https://github.com/Riverify/rikky-takeaway/blob/main/img/login2.png?raw=true)
 [![](/home/river/code/IdeaProjects/rikky-takeaway/img/choose.png)](https://github.com/Riverify/rikky-takeaway/blob/main/img/choose.png?raw=true)
 
