@@ -215,7 +215,7 @@ plus开发核心技术的真java实战项目_](https://www.bilibili.com/video/BV
 
 关于如何贡献的更多信息，请查看[CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426)。
 
-1. Fork the Project
+1. [Fork](https://github.com/riverify/rikky-takeaway/fork) the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
 3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
