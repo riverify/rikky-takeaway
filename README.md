@@ -129,7 +129,7 @@ plus开发核心技术的真java实战项目_](https://www.bilibili.com/video/BV
 
 再在该设置目录下的`User Settings File`中选择刚刚创建的`settings.xml`文件，勾选`Override`，点击`OK`即可，再次重启IntelliJ
 IDEA，Maven依赖就会自动下载了。
-若`pox.xml`依然爆红，尝试再次加载。
+若`pom.xml`依然爆红，尝试再次加载。
 
 ### 进行配置
 
