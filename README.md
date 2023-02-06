@@ -189,7 +189,7 @@ IDEA，Maven依赖就会自动下载了。
 
 [![](https://github.com/riverify/rikky-takeaway/blob/main/img/dishes.png?raw=true)](https://github.com/riverify/rikky-takeaway/blob/main/img/dishes.png?raw=true)
 [![](/home/river/code/IdeaProjects/rikky-takeaway/img/login2.png)](https://github.com/riverify/rikky-takeaway/blob/main/img/login2.png?raw=true)
-[![](/home/river/code/IdeaProjects/rikky-takeaway/img/choose.png)](https://github.com/riverify/rikky-takeaway/blob/main/img/choose.png?raw=true)
+[![](https://github.com/riverify/rikky-takeaway/blob/main/img/choose.png?raw=true)](https://github.com/riverify/rikky-takeaway/blob/main/img/choose.png?raw=true)
 
 这算是我接触的第一个Spring Boot项目，作为学习的一个记录，我将每次的提交都在此仓库中，学习素材取自
 [_黑马程序员Java项目实战《瑞吉外卖》，轻松掌握springboot + mybatis
