@@ -170,7 +170,8 @@ IDEA，Maven依赖就会自动下载了。
 
 即可完成打包，云服务器部署请自行利用互联网搜索。
 
-
+- 后台管理系统默认链接: http://localhost:8080/backend/index.html
+- 前台管理系统默认链接: http://localhost:8080/front/index.html
 
 <!-- USAGE EXAMPLES -->
 
