@@ -156,6 +156,7 @@ IDEA，Maven依赖就会自动下载了。
   然后在`application.yml`的文件存储位置配置信息中配置它。
 
 自此，配置基本完成，你可以顺利在本地运行项目了，通过运行在`src/main/java/com/rikky`目录下的`RikkyApplication.java`即可启动本项目。
+后台登陆默认账号为`admin`,密码为`123456`。
 前台用户界面为手机适配，电脑直接打开可能会出现排版错乱，所以请使用手机浏览器打开，
 或者使用开发者工具模拟手机浏览器打开。使用手机访问需要使得你的**电脑和手机处于同一局域网**
 下，[获取电脑ip地址教程](https://support.microsoft.com/zh-cn/windows/%E5%9C%A8-windows-%E4%B8%AD%E6%9F%A5%E6%89%BE-ip-%E5%9C%B0%E5%9D%80-f21a9bbc-c582-55cd-35e0-73431160a1b9#:~:text=%E5%9C%A8%E4%BB%BB%E5%8A%A1%E6%A0%8F%E4%B8%8A%EF%BC%8C%E9%80%89%E6%8B%A9%E2%80%9C%E4%BB%A5%E5%A4%AA%E7%BD%91%E7%BD%91%E7%BB%9C%E2%80%9D%E5%9B%BE%E6%A0%87,%E5%88%97%E5%87%BA%E7%9A%84IP%20%E5%9C%B0%E5%9D%80%E3%80%82)
