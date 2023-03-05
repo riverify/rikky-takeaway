@@ -113,7 +113,7 @@ plus开发核心技术的真java实战项目_](https://www.bilibili.com/video/BV
   IDEA没有识别到Maven，请右键项目，选择`Add Framework Support`，选择`Maven`，然后点击`OK`。
   若在Maven下载依赖时出现问题（大部分国内用户都会出现这个问题），为了一劳永逸，建议您在IntelliJ
   IDEA的`File`->`Settings`->`Build,Execution,Deployment`->`Build Tools`->`Maven`中配置Maven。
-  通过在您电脑用户目录下的`.m2`文件夹中找到`settings.xml`文件（若没有则创建一个该名的文件），在`<Mirrors>`内部添加以下内容：
+  通过在您电脑用户目录下的`.m2`文件夹中找到`settings.xml`文件（若没有则创建一个该名的文件），在`<Settings>`内部添加以下内容：
 
 ```xml
 
