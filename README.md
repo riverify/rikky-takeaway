@@ -116,15 +116,16 @@ plus开发核心技术的真java实战项目_](https://www.bilibili.com/video/BV
   通过在您电脑用户目录下的`.m2`文件夹中找到`settings.xml`文件（若没有则创建一个该名的文件），在`<Settings>`内部添加以下内容：
 
 ```xml
-
-<mirrors>
-    <mirror>
-        <id>aliyunmaven</id>
-        <mirrorOf>*</mirrorOf>
-        <name>阿里云公共仓库</name>
-        <url>https://maven.aliyun.com/repository/public</url>
-    </mirror>
-</mirrors>
+<settings>
+  <mirrors>
+      <mirror>
+          <id>aliyunmaven</id>
+          <mirrorOf>*</mirrorOf>
+          <name>阿里云公共仓库</name>
+          <url>https://maven.aliyun.com/repository/public</url>
+      </mirror>
+  </mirrors>
+</settings>
 ```
 
 再在该设置目录下的`User Settings File`中选择刚刚创建的`settings.xml`文件，勾选`Override`，点击`OK`即可，再次重启IntelliJ
