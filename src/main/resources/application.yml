@@ -13,7 +13,7 @@ spring:
       driver-class-name: com.mysql.cj.jdbc.Driver
       # 本人将使用服务器启动项填写以下敏感信息 #
       # IDEA->Run->Edit Configurations->Environment Variables->添加以下变量 #
-      url: # 请自行配置数据库url， e.g. jdbc:mysql://localhost:3306/rikky_takeaway?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
+      url: # 请自行配置数据库url， e.g. jdbc:mysql://localhost:3306/rikkytakeaway?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
       username: # 请自行配置数据库username
       password: # 本地测试时请自行添加password
 
@@ -22,7 +22,7 @@ spring:
   mail:
     host: smtp.qq.com   # 如果你需要使用非qq邮箱，请自行配置host
     username: # 请自行配置邮箱地址
-    password: mwluvwkrszbldgbh # 请自行配置邮箱smtp授权码 具体请看本项目根目录下的README.md
+    password: wddrbljraesbdhdg # 请自行配置邮箱smtp授权码 具体请看本项目根目录下的README.md
     port: 587
     default-encoding: UTF-8
     timeout: 10 # 验证码有效时间 单位：分钟
@@ -56,5 +56,5 @@ mybatis-plus:
 # 其它配置信息
 rikky:
   # 文件存储位置信息|必填
-  linux-path: /home/river/code/IdeaProjects/rikky-takeaway/img/  # 本地测试时，文件存储路径
+  linux-path: C:\Users\river\code\work\javaProjects\rikky-takeaway\img\  # 本地测试时，文件存储路径，img的绝对路径，img后需要加上斜杠
 #  windows-path: # !!!暂不使用，即使你是非linux系统，也在上方linux-path里配置存储地址
