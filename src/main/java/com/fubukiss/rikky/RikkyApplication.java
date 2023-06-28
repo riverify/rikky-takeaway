@@ -20,7 +20,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 public class RikkyApplication {
     public static void main(String[] args) {
         SpringApplication.run(RikkyApplication.class, args);
-        log.info("项目启动成功! [悦刻外卖 version: 1.1.1] https://github.com/Riverify/rikky-takeaway");
+        log.info("项目启动成功! [悦刻外卖 version: 1.1.2] https://github.com/Riverify/rikky-takeaway");
         log.info("后台管理系统默认链接: http://localhost:8080/backend/index.html");
         log.info("前台管理系统默认链接: http://localhost:8080/front/index.html");
     }
